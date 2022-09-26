@@ -1,14 +1,17 @@
 package log
 
 import (
+	"fmt"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
+	"gopkg.in/natefinch/lumberjack.v2"
+	"path"
 	"time"
 )
 
 var sugaredLogger *zap.SugaredLogger
 var atomicLevel zap.AtomicLevel
+var ioWrite *lumberjack.Logger
 
 func init() {
 	encoderCfg := zapcore.EncoderConfig{
@@ -29,7 +32,8 @@ func init() {
 	atomicLevel = zap.NewAtomicLevel()
 	atomicLevel.SetLevel(zapcore.DebugLevel)
 
-	core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), os.Stdout, atomicLevel)
+	//core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), os.Stdout, atomicLevel)
+	core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), getLogWriter(), atomicLevel)
 	logger := zap.New(core)
 	logger = logger.WithOptions(zap.AddCallerSkip(1))
 	logger = logger.WithOptions(zap.AddCaller())
@@ -71,4 +75,23 @@ func Info(template string, args ...interface{}) {
 
 func Debug(template string, args ...interface{}) {
 	sugaredLogger.Debugf(template, args...)
+}
+
+func Rotate() {
+	fmt.Println("logger.Rotate....")
+	ioWrite.Rotate()
+}
+
+func getLogWriter() zapcore.WriteSyncer {
+	fileName := fmt.Sprintf("%d-%d-%d.log", time.Now().Year(), time.Now().Month(), time.Now().Day())
+	//fileName := fmt.Sprintf("%s.log", pCfg.Name)
+	lumberJackLogger := &lumberjack.Logger{
+		Filename:   path.Join("./", fileName),
+		MaxSize:    1024, //MB
+		MaxBackups: 0,    //文件数量 -0 无限制
+		MaxAge:     22,   //保留时间 -0 永久保存
+		Compress:   true, //压缩
+	}
+	ioWrite = lumberJackLogger
+	return zapcore.AddSync(ioWrite)
 }
