@@ -12,8 +12,10 @@ import (
 var sugaredLogger *zap.SugaredLogger
 var atomicLevel zap.AtomicLevel
 var ioWrite *lumberjack.Logger
+var execName string
 
 func init() {
+	chToInstallDir()
 	encoderCfg := zapcore.EncoderConfig{
 		MessageKey:    "message",
 		LevelKey:      "level",
@@ -84,10 +86,14 @@ func Rotate() {
 }
 
 func getLogWriter() zapcore.WriteSyncer {
-	fileName := fmt.Sprintf("%d-%d-%d.log", time.Now().Year(), time.Now().Month(), time.Now().Day())
-	//fileName := fmt.Sprintf("%s.log", pCfg.Name)
+	var logName string
+	if execName != "" {
+		logName = fmt.Sprintf("%s.log", execName)
+	} else {
+		logName = fmt.Sprintf("%d-%d-%d.log", time.Now().Year(), time.Now().Month(), time.Now().Day())
+	}
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   path.Join("./", fileName),
+		Filename:   path.Join("./", logName),
 		MaxSize:    1024, //MB
 		MaxBackups: 0,    //文件数量 -0 无限制
 		MaxAge:     22,   //保留时间 -0 永久保存
