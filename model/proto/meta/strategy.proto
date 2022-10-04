@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+// 指定proto版本
+
+package pb;
+
+
+// 指定包名
+
+option go_package = "github.com/crazy-choose/helper/model/proto/pb";
+
+// 定义服务
+service GuideStrategy {
+    rpc TickNotify(StrategyNotify) returns (Resp) {}
+    rpc CycleNotify(CycleInfo) returns (Resp) {}
+    rpc OrderRtnNotify(StrategyNotify) returns (Resp);
+    rpc OrderTradeNotify(StrategyNotify) returns (Resp);
+}
+
+service GuideTrade {
+    rpc OrderInsert(TradeInsert) returns (Resp);
+    rpc OrderAction(TradeAction) returns (Resp);
+}
+
+message Resp {
+    int32 code = 1;
+    string message = 2;
+}
+
+message TradeInsert {
+    bytes body = 1;     //消息内容
+}
+
+message TradeAction {
+    string InstrumentId = 1;
+    string ExchangeId = 2;
+    string OrderSysID = 3;
+    optional string TriggerId = 4;
+}
+
+message StrategyNotify {
+    bytes body = 1;     //消息内容
+}
+
+message CycleInfo {
+    int32 BarType = 1; //新周期
+}

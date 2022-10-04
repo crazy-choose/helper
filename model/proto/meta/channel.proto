@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+// 指定proto版本
+
+package pb;
+
+// 指定包名
+option go_package = "github.com/crazy-choose/helper/model/proto/pb";
+
+service GuideService {
+  rpc Hello (HeartBeat) returns (HeartBeat);
+  rpc Channel (stream Push) returns (stream Notify);
+}
+
+enum MsgType {
+  UNIVERSAL = 0;
+  TickNotify = 1;
+  CycleNotify = 3;
+  OrderRtnNotify = 5;
+  OrderTradeNotify = 7;
+  OrderInsert = 2;
+  OrderAction = 4;
+}
+
+message HeartBeat {
+  string value = 1;
+}
+
+message Push {
+  MsgType mt = 1;  //消息类型
+  bytes body = 2;     //消息内容
+}
+
+message Notify {
+  MsgType mt = 1;  //消息类型
+  bytes body = 2;     //消息内容
+}
