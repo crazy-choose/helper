@@ -31,5 +31,5 @@ func exeName() string {
 }
 
 func defaultName() string {
-	return homeDir() + "/logs/" + exeName()
+	return homeDir() + "/logs/" + exeName() + ".log"
 }
