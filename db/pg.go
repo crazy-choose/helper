@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	option           meta.PG
+	cfg              meta.PG
 	instance         *Session
 	ErrUninitialized = errors.New("pg client not initialized")
 )
@@ -20,6 +20,7 @@ func verifyConfig(option meta.PG) {
 	if option.DbName == "" {
 		log.Panic("dbname is empty")
 	}
+	cfg = option
 }
 
 func genDSN(option meta.PG) string {
@@ -40,14 +41,14 @@ func InitPg(opt meta.PG) {
 	verifyConfig(opt)
 	pgConfig := postgres.Config{
 		PreferSimpleProtocol: true,
-		DSN:                  genDSN(option), // DSN data source name
+		DSN:                  genDSN(opt), // DSN data source name
 	}
 	if db, err := gorm.Open(postgres.New(pgConfig)); err != nil {
 		log.Error(err.Error())
 	} else {
 		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(option.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(option.MaxOpenConns)
+		sqlDB.SetMaxIdleConns(opt.MaxIdleConns)
+		sqlDB.SetMaxOpenConns(opt.MaxOpenConns)
 		instance = &Session{
 			db,
 		}
@@ -55,15 +56,18 @@ func InitPg(opt meta.PG) {
 	}
 }
 
-func Conn() *Session {
+func Instance() *Session {
 	if instance == nil {
-		InitPg(option)
+		InitPg(cfg)
 	}
 	return instance
 }
 
 func Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions) (err error) {
-	return Conn().DB.Transaction(func(tx *gorm.DB) error {
+	if instance == nil {
+		InitPg(cfg)
+	}
+	return instance.DB.Transaction(func(tx *gorm.DB) error {
 		return fc(&Session{tx})
 	}, opts...)
 }
