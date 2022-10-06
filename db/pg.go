@@ -11,19 +11,45 @@ import (
 )
 
 var (
-	cfg              meta.PG
-	instance         *Session
+	cfg              meta.Postgres
+	impl             *Session
 	ErrUninitialized = errors.New("pg client not initialized")
 )
 
-func verifyConfig(option meta.PG) {
+func InitPostgres(opt meta.Postgres) {
+	verifyConfig(opt)
+	pgConfig := postgres.Config{
+		PreferSimpleProtocol: true,
+		DSN:                  genDSN(opt), // DSN data source name
+	}
+	if db, err := gorm.Open(postgres.New(pgConfig)); err != nil {
+		log.Error(err.Error())
+	} else {
+		sqlDB, _ := db.DB()
+		sqlDB.SetMaxIdleConns(opt.MaxIdleConns)
+		sqlDB.SetMaxOpenConns(opt.MaxOpenConns)
+		impl = &Session{
+			db,
+		}
+		log.Info("InitPg success")
+	}
+}
+
+func Postgres() *Session {
+	if impl == nil {
+		InitPostgres(cfg)
+	}
+	return impl
+}
+
+func verifyConfig(option meta.Postgres) {
 	if option.DbName == "" {
 		log.Panic("dbname is empty")
 	}
 	cfg = option
 }
 
-func genDSN(option meta.PG) string {
+func genDSN(option meta.Postgres) string {
 	return "host =" + option.Host + " user=" + option.Username + " password=" + option.Password + " dbname=" + option.DbName + " port=" + option.Port + " sslmode=disable TimeZone=Asia/Shanghai"
 }
 
@@ -37,37 +63,11 @@ func (s *Session) Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions
 	}, opts...)
 }
 
-func InitPg(opt meta.PG) {
-	verifyConfig(opt)
-	pgConfig := postgres.Config{
-		PreferSimpleProtocol: true,
-		DSN:                  genDSN(opt), // DSN data source name
-	}
-	if db, err := gorm.Open(postgres.New(pgConfig)); err != nil {
-		log.Error(err.Error())
-	} else {
-		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(opt.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(opt.MaxOpenConns)
-		instance = &Session{
-			db,
-		}
-		log.Info("InitPg success")
-	}
-}
-
-func Instance() *Session {
-	if instance == nil {
-		InitPg(cfg)
-	}
-	return instance
-}
-
 func Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions) (err error) {
-	if instance == nil {
-		InitPg(cfg)
+	if impl == nil {
+		InitPostgres(cfg)
 	}
-	return instance.DB.Transaction(func(tx *gorm.DB) error {
+	return impl.DB.Transaction(func(tx *gorm.DB) error {
 		return fc(&Session{tx})
 	}, opts...)
 }

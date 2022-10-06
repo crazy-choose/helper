@@ -2,7 +2,7 @@ package meta
 
 import "time"
 
-type PG struct {
+type Postgres struct {
 	Host         string `json:"host" toml:"host" mapstructure:"host"`                         // 服务器地址
 	Port         string `json:"port" toml:"port" mapstructure:"port"`                         // 服务器端口
 	DbName       string `json:"dbName" toml:"dbName" mapstructure:"dbName"`                   // 数据库名
@@ -39,16 +39,15 @@ type Zap struct {
 	LogInConsole  bool   `mapstructure:"log-in-console" json:"logInConsole" yaml:"log-in-console"`  // 输出控制台
 }
 
-//配置
 type CTPDeploy struct {
 	TradeFront []string
 	QuoteFront []string
-	BrokerID   string //经纪公司代码
+	BrokerID   string
 	Password   string
 	UserID     string
 	AppID      string
 	AuthCode   string
-	FundPassWD string //资金密码
+	FundPassWD string
 	DelivDay   int
 	Products   []string
 }
