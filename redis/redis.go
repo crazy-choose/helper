@@ -48,12 +48,20 @@ func Impl() *redis.Client {
 	return rc
 }
 
-func Get(key string) (interface{}, error) {
+func Ctx() context.Context {
+	return ctx
+}
+
+func Get(key string) *redis.StringCmd {
+	return rc.Get(ctx, key)
+}
+
+func DoGet(key string) (interface{}, error) {
 	return rc.Do(ctx, "GET", key).Result()
 }
 
-func Set(key string, value interface{}, expire time.Duration) error {
-	return rc.Set(ctx, key, value, expire).Err()
+func Set(key string, value interface{}, expire time.Duration) *redis.StatusCmd {
+	return rc.Set(ctx, key, value, expire)
 }
 
 func Publish(channel string, message interface{}) *redis.IntCmd {
