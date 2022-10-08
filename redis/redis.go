@@ -10,10 +10,10 @@ import (
 )
 
 var (
-	rc         *redis.Client // rds 连接
 	cfg        meta.Redis
-	ctx        context.Context // rds 上下文
-	expireTime = 86400 * time.Second
+	rc         *redis.Client   // rds 连接
+	CTX        context.Context // rds 上下文
+	ExpireTime = 86400 * time.Second
 )
 
 func Init(opt meta.Redis) bool {
@@ -30,8 +30,8 @@ func Init(opt meta.Redis) bool {
 		WriteTimeout: cfg.WriteTimeout * time.Second, //写超时，默认等于读超时
 		PoolTimeout:  cfg.WriteTimeout * time.Second, //当所有连接都处在繁忙状态时，客户端等待可用连接的最大等待时长，默认为读超时+1秒
 	})
-	ctx = context.Background()
-	pong, err := rc.Ping(ctx).Result()
+	CTX = context.Background()
+	pong, err := rc.Ping(CTX).Result()
 	if err != nil {
 		log.Error(fmt.Sprintf("rdb.Pong(%+v), err%+v", pong, err))
 		return false
@@ -48,68 +48,79 @@ func Impl() *redis.Client {
 	return rc
 }
 
-func Ctx() context.Context {
-	return ctx
-}
-
 func Get(key string) *redis.StringCmd {
-	return rc.Get(ctx, key)
+	return rc.Get(CTX, key)
 }
 
 func DoGet(key string) (interface{}, error) {
-	return rc.Do(ctx, "GET", key).Result()
+	return rc.Do(CTX, "GET", key).Result()
 }
 
 func Set(key string, value interface{}, expire time.Duration) *redis.StatusCmd {
-	return rc.Set(ctx, key, value, expire)
+	return rc.Set(CTX, key, value, expire)
+}
+
+func MGet(keys ...string) *redis.SliceCmd {
+	return rc.MGet(CTX, keys...)
+}
+
+func MSet(values ...interface{}) *redis.StatusCmd {
+	return rc.MSet(CTX, values...)
 }
 
 func Publish(channel string, message interface{}) *redis.IntCmd {
-	return rc.Publish(ctx, channel, message)
+	return rc.Publish(CTX, channel, message)
 }
 
 func Subscribe(channel ...string) *redis.PubSub {
-	return rc.Subscribe(ctx, channel...)
+	return rc.Subscribe(CTX, channel...)
 }
 
 func PSubscribe(handler func(ps *redis.PubSub), channel ...string) error {
-	handler(rc.PSubscribe(ctx, channel...))
+	handler(rc.PSubscribe(CTX, channel...))
 	return nil
 }
 
 func SMembers(key string) *redis.StringSliceCmd {
-	return rc.SMembers(ctx, key)
+	return rc.SMembers(CTX, key)
 }
 
 func ZRange(key string, start, stop int64) *redis.StringSliceCmd {
-	return rc.ZRange(ctx, key, start, stop)
+	return rc.ZRange(CTX, key, start, stop)
 }
 
 func HGetAll(key string) *redis.StringStringMapCmd {
-	return rc.HGetAll(ctx, key)
+	return rc.HGetAll(CTX, key)
+}
+
+func LIndex(key string, idx int64) *redis.StringCmd {
+	return rc.LIndex(CTX, key, idx)
 }
 
 func LRange(key string, start, stop int64) *redis.StringSliceCmd {
-	return rc.LRange(ctx, key, start, stop)
+	return rc.LRange(CTX, key, start, stop)
 }
 
 func LPush(key string, val interface{}) *redis.IntCmd {
-	return rc.LPush(ctx, key, val)
+	return rc.LPush(CTX, key, val)
+}
+
+func RPush(key string, val interface{}) *redis.IntCmd {
+	return rc.RPush(CTX, key, val)
 }
 
 func DelKey(key string) *redis.IntCmd {
-	return rc.Del(ctx, key)
+	return rc.Del(CTX, key)
 }
 
 func SScan(key string, cursor uint64, match string, count int64) *redis.ScanCmd {
-	//	args := []interface{}{"SSCAN", key, cursor, match, count}
-	return rc.SScan(ctx, key, cursor, match, count)
+	return rc.SScan(CTX, key, cursor, match, count)
 }
 
 func ZScan(key string, cursor uint64, match string, count int64) *redis.ScanCmd {
-	return rc.ZScan(ctx, key, cursor, match, count)
+	return rc.ZScan(CTX, key, cursor, match, count)
 }
 
 func Flush() {
-	rc.FlushDB(ctx) // 清除数据
+	rc.FlushDB(CTX) // 清除数据
 }
