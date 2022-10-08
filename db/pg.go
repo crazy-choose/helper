@@ -16,7 +16,8 @@ var (
 	ErrUninitialized = errors.New("pg client not initialized")
 )
 
-func InitPostgres(opt meta.Postgres) {
+func Init(opt meta.Postgres) {
+	cfg = opt
 	verifyConfig(opt)
 	pgConfig := postgres.Config{
 		PreferSimpleProtocol: true,
@@ -37,7 +38,7 @@ func InitPostgres(opt meta.Postgres) {
 
 func Postgres() *Session {
 	if impl == nil {
-		InitPostgres(cfg)
+		Init(cfg)
 	}
 	return impl
 }
@@ -46,7 +47,6 @@ func verifyConfig(option meta.Postgres) {
 	if option.DbName == "" {
 		log.Panic("dbname is empty")
 	}
-	cfg = option
 }
 
 func genDSN(option meta.Postgres) string {
@@ -65,7 +65,7 @@ func (s *Session) Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions
 
 func Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions) (err error) {
 	if impl == nil {
-		InitPostgres(cfg)
+		Init(cfg)
 	}
 	return impl.DB.Transaction(func(tx *gorm.DB) error {
 		return fc(&Session{tx})

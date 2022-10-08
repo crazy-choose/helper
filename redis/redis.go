@@ -10,12 +10,14 @@ import (
 )
 
 var (
-	rc         *redis.Client   // rds 连接
+	rc         *redis.Client // rds 连接
+	cfg        meta.Redis
 	ctx        context.Context // rds 上下文
 	expireTime = 86400 * time.Second
 )
 
-func InitRedis(cfg meta.Redis) bool {
+func Init(opt meta.Redis) bool {
+	cfg = opt
 	rc = redis.NewClient(&redis.Options{
 		Addr:         cfg.Host,
 		Password:     cfg.AuthKey,  // no password set
@@ -37,6 +39,13 @@ func InitRedis(cfg meta.Redis) bool {
 
 	log.Info("InitRedis Success")
 	return true
+}
+
+func Impl() *redis.Client {
+	if rc == nil {
+		Init(cfg)
+	}
+	return rc
 }
 
 func Get(key string) (interface{}, error) {

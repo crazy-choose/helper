@@ -31,7 +31,7 @@ func NewCron() *CustomCron {
 	return impl
 }
 
-func Instance() *CustomCron {
+func Impl() *CustomCron {
 	if impl == nil {
 		NewCron()
 	}
@@ -63,4 +63,9 @@ func (impl *CustomCron) Stop() {
 func (impl *CustomCron) Print() {
 	fmt.Printf("[CustomCron]entryComm:%v", impl.entryComm)
 	fmt.Printf("[CustomCron]entryMap:%v", impl.entryMap)
+}
+
+func (impl *CustomCron) Log() {
+	log.Info("[CustomCron]entryComm:%v", impl.entryComm)
+	log.Info("[CustomCron]entryMap:%v", impl.entryMap)
 }
