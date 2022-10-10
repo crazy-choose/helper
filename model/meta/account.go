@@ -55,10 +55,6 @@ type AccountInfo struct {
 	RemainSwap                     decimal.Decimal `json:"remain_swap"`                         // 剩余换汇额度
 }
 
-func (*AccountInfo) TableName() string {
-	return "account_info"
-}
-
 //持仓
 type Position struct {
 	Reserve1           string          `json:"reserve1"`              //保留的无效字段
@@ -106,8 +102,4 @@ type Position struct {
 	PositionCostOffset decimal.Decimal `json:"position_cost_offset"`  // 大商所持仓成本差值，只有大商所使用
 	InstrumentID       string          `json:"instrument_id"`         // 合约代码
 	InstrumentName     string          `json:"instrument_name"`       // 合约名
-}
-
-func (*Position) TableName() string {
-	return "position"
 }

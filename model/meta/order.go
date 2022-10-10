@@ -73,10 +73,6 @@ type OrderInfo struct {
 	Error                RspInfo         `json:"error"`                   //errorInfo(add)
 }
 
-func (*OrderInfo) TableName() string {
-	return "order_info"
-}
-
 // 报单操作(如：撤单)
 type OrderActionInfo struct {
 	BrokerID          string          `json:"broker_id"`           // 经纪公司代码
@@ -110,8 +106,4 @@ type OrderActionInfo struct {
 	MacAddress        string          `json:"mac_address"`         // Mac地址
 	InstrumentID      string          `json:"instrument_id"`       // 合约代码
 	IPAddress         string          `json:"ip_address"`          // IP地址
-}
-
-func (*OrderActionInfo) TableName() string {
-	return "order_action_info"
 }

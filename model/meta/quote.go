@@ -52,10 +52,6 @@ type TickInfo struct {
 	BandingLowerPrice  decimal.Decimal `json:"banding_lower_price"`  // 下待价
 }
 
-func (*TickInfo) TableName() string {
-	return "tick_info"
-}
-
 type SpecificInstrument struct {
 	InstrumentID string `json:"instrument_id"` // 合约代码
 }

@@ -39,10 +39,6 @@ type TradeInfo struct {
 	ExchangeInstID string          `json:"exchange_inst_id"` // 合约在交易所的代码
 }
 
-func (*TradeInfo) TableName() string {
-	return "trade_info"
-}
-
 // 合约信息
 type InstrumentInfo struct {
 	reserve1               string          `json:"reserve_1"`                 // 保留的无效字段
@@ -82,10 +78,6 @@ type InstrumentInfo struct {
 	UnderlyingInstrID      string          `json:"underlying_instr_id"`       // 基础商品代码
 }
 
-func (*InstrumentInfo) TableName() string {
-	return "instrument_info"
-}
-
 // InstrumentStatus 合约状态
 type InstrumentStatus struct {
 	ExchangeID        string `json:"exchange_id"`         // 交易所代码	[9]byte
@@ -104,8 +96,4 @@ type InstrumentStatus struct {
 	PreStatus           string `json:"pre_status"`             //前状态(自加)
 	PreEnterTime        string `json:"pre_enter_time"`         //前状态进入时间(自加)
 	PreEnterReason      string `json:"pre_enter_reason"`       //前状态进入原因(自加)
-}
-
-func (*InstrumentStatus) TableName() string {
-	return "instrument_status"
 }

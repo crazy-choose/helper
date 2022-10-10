@@ -7,6 +7,13 @@ const (
 	DirectionNone DirectionType = 'x'
 )
 
+type PosDirectionType byte // 买卖方向类型
+const (
+	THOST_FTDC_PD_Net   PosDirectionType = '1' //
+	THOST_FTDC_PD_Long  PosDirectionType = '2' //多
+	THOST_FTDC_PD_Short PosDirectionType = '3' //空
+)
+
 type OffsetFlagType byte // 开平标志类型
 const (
 	THOST_FTDC_OF_Open            OffsetFlagType = '0' // 开仓
