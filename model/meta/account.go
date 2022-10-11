@@ -7,11 +7,11 @@ type AccountInfo struct {
 	BrokerID                       string          `json:"broker_id" gorm:"column:broker_id;comment:经纪公司代码;"`                                                                  // 经纪公司代码
 	AccountID                      string          `json:"account_id" gorm:"column:account_id;comment:投资者帐号;index:idx_account_id,type:btree"`                                  // 投资者帐号
 	PreMortgage                    decimal.Decimal `json:"pre_mortgage" gorm:"column:pre_mortgage;comment:上次质押金额;"`                                                            // 上次质押金额
-	PreCredit                      decimal.Decimal `json:"pre_credit" gorm:"column:pre_mortgage;comment:上次信用额度;"`                                                              // 上次信用额度
+	PreCredit                      decimal.Decimal `json:"pre_credit" gorm:"column:pre_credit;comment:上次信用额度;"`                                                                // 上次信用额度
 	PreDeposit                     decimal.Decimal `json:"pre_deposit" gorm:"column:pre_deposit;comment:上次存款额;"`                                                               // 上次存款额
 	PreBalance                     decimal.Decimal `json:"pre_balance" gorm:"column:pre_balance;comment:上次结算准备金;"`                                                             // 上次结算准备金
 	PreMargin                      decimal.Decimal `json:"pre_margin" gorm:"column:pre_margin;comment:上次占用的保证金;"`                                                              // 上次占用的保证金
-	InterestBase                   decimal.Decimal `json:"interest_base" gorm:"column:pre_margin;comment:利息基数;"`                                                               // 利息基数
+	InterestBase                   decimal.Decimal `json:"interest_base" gorm:"column:interest_base;comment:利息基数;"`                                                            // 利息基数
 	Interest                       decimal.Decimal `json:"interest" gorm:"column:interest;comment:利息收入;"`                                                                      // 利息收入
 	Deposit                        decimal.Decimal `json:"deposit" gorm:"column:deposit;comment:入金金额;"`                                                                        // 入金金额
 	Withdraw                       decimal.Decimal `json:"withdraw" gorm:"column:withdraw;comment:出金金额;"`                                                                      // 出金金额
@@ -25,8 +25,8 @@ type AccountInfo struct {
 	PositionProfit                 decimal.Decimal `json:"position_profit" gorm:"column:position_profit;comment:持仓盈亏;"`                                                        // 持仓盈亏
 	Balance                        decimal.Decimal `json:"balance" gorm:"column:balance;comment:期货结算准备金;"`                                                                     // 期货结算准备金
 	Available                      decimal.Decimal `json:"available" gorm:"column:available;comment:可用资金;index:idx_available,type:btree"`                                      // 可用资金
-	WithdrawQuota                  decimal.Decimal `json:"withdraw_quota" gorm:"column:balance;comment:期货结算准备金;"`                                                              // 可取资金
-	Reserve                        decimal.Decimal `json:"reserve" gorm:"column:balance;comment:期货结算准备金;"`                                                                     // 基本准备金
+	WithdrawQuota                  decimal.Decimal `json:"withdraw_quota" gorm:"column:withdraw_quota;comment:期货结算准备金;"`                                                       // 可取资金
+	Reserve                        decimal.Decimal `json:"reserve" gorm:"column:reserve;comment:期货结算准备金;"`                                                                     // 基本准备金
 	TradingDay                     string          `json:"trading_day" gorm:"column:trading_day;comment:交易日;index:idx_trading_day,type:btree"`                                 // 交易日
 	SettlementID                   int             `json:"settlement_id" gorm:"column:settlement_id;comment:结算编号;index:idx_settlement_id,type:btree"`                          // 结算编号
 	Credit                         decimal.Decimal `json:"credit" gorm:"column:credit;comment:信用额度;"`                                                                          // 信用额度
