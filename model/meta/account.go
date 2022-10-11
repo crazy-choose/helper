@@ -50,7 +50,7 @@ type AccountInfo struct {
 	SpecProductCloseProfit         decimal.Decimal `json:"spec_product_close_profit" gorm:"column:spec_product_close_profit;comment:特殊产品平仓盈亏;"`                                // 特殊产品平仓盈亏
 	SpecProductPositionProfitByAlg decimal.Decimal `json:"spec_product_position_profit_by_alg" gorm:"column:spec_product_position_profit_by_alg;comment:根据持仓盈亏算法计算的特殊产品持仓盈亏;"` // 根据持仓盈亏算法计算的特殊产品持仓盈亏
 	SpecProductExchangeMargin      decimal.Decimal `json:"spec_product_exchange_margin" gorm:"column:spec_product_exchange_margin;comment:特殊产品交易所保证金;"`                        // 特殊产品交易所保证金
-	BizType                        string          `json:"biz_type" gorm:"column:biz_type;comment:业务类型;"`                                                                      // 业务类型
+	BizType                        byte            `json:"biz_type" gorm:"column:biz_type;comment:业务类型;"`                                                                      // 业务类型
 	FrozenSwap                     decimal.Decimal `json:"frozen_swap" gorm:"column:frozen_swap;comment:延时换汇冻结金额;"`                                                            // 延时换汇冻结金额
 	RemainSwap                     decimal.Decimal `json:"remain_swap" gorm:"column:remain_swap;comment:剩余换汇额度;"`                                                              // 剩余换汇额度
 }
@@ -60,9 +60,9 @@ type Position struct {
 	Reserve1           string          `json:"reserve1" gorm:"column:reserve1;comment:保留的无效字段;"`                                          //保留的无效字段
 	BrokerID           string          `json:"broker_id" gorm:"column:broker_id;comment:经纪公司代码;index:idx_broker_id,type:btree"`           //经纪公司代码
 	InvestorID         string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`      //投资者代码
-	PosiDirection      string          `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`                               //持仓多空方向
-	HedgeFlag          string          `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`                                       // 投机套保标志
-	PositionDate       string          `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
+	PosiDirection      byte            `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`                               //持仓多空方向
+	HedgeFlag          byte            `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`                                       // 投机套保标志
+	PositionDate       byte            `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
 	Position           int             `json:"position" gorm:"column:position;comment:当前总持仓;"`                                            // 当前总持仓
 	YdPosition         int             `json:"yd_position "gorm:"column:yd_position;comment:上日持仓;"`                                       // 上日持仓
 	TodayPosition      int             `json:"today_position "gorm:"column:today_position;comment:表示今新开仓;"`                               // 表示今新开仓
