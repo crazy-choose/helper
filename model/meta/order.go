@@ -8,7 +8,7 @@ type OrderInfo struct {
 	InvestorID           string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`           // 投资者代码
 	OrderRef             string          `json:"order_ref" gorm:"column:order_ref;comment:报单引用;index:idx_order_ref,type:btree"`                  // 报单引用
 	UserID               string          `json:"user_id" gorm:"column:user_id;comment:用户代码;index:idx_user_id,type:btree"`                        // 用户代码
-	OrderPriceType       string          `json:"order_price_type" gorm:"column:order_price_type;comment:报单价格条件;"`                                // 报单价格条件
+	OrderPriceType       byte            `json:"order_price_type" gorm:"column:order_price_type;comment:报单价格条件;"`                                // 报单价格条件
 	Direction            byte            `json:"direction" gorm:"column:direction;comment:买卖方向;"`                                                // 买卖方向
 	CombOffsetFlag       string          `json:"comb_offset_flag" gorm:"column:comb_offset_flag;comment:组合开平标志;"`                                // 组合开平标志
 	CombHedgeFlag        string          `json:"comb_hedge_flag" gorm:"column:comb_hedge_flag;comment:组合投机套保标志;"`                                // 组合投机套保标志
