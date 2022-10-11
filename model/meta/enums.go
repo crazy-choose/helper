@@ -59,17 +59,17 @@ const (
 	THOST_FTDC_TC_GFA byte = '6'
 )
 
-type OrderStatusType string // 报单状态类型
+type OrderStatusType byte // 报单状态类型
 const (
-	OrderStatusAllTraded             string = "0" // 全部成交
-	OrderStatusPartTradedQueueing    string = "1" // 部分成交还在队列中
-	OrderStatusPartTradedNotQueueing string = "2" // 部分成交不在队列中
-	OrderStatusNoTradeQueueing       string = "3" // 未成交还在队列中
-	OrderStatusNoTradeNotQueueing    string = "4" // 未成交不在队列中
-	OrderStatusCanceled              string = "5" // 撤单
-	OrderStatusUnknown               string = "a" // 未知
-	OrderStatusNotTouched            string = "b" // 尚未触发
-	OrderStatusTouched               string = "c" // 已触发
+	OrderStatusAllTraded             OrderStatusType = '0' // 全部成交
+	OrderStatusPartTradedQueueing    OrderStatusType = '1' // 部分成交还在队列中
+	OrderStatusPartTradedNotQueueing OrderStatusType = '2' // 部分成交不在队列中
+	OrderStatusNoTradeQueueing       OrderStatusType = '3' // 未成交还在队列中
+	OrderStatusNoTradeNotQueueing    OrderStatusType = '4' // 未成交不在队列中
+	OrderStatusCanceled              OrderStatusType = '5' // 撤单
+	OrderStatusUnknown               OrderStatusType = 'a' // 未知
+	OrderStatusNotTouched            OrderStatusType = 'b' // 尚未触发
+	OrderStatusTouched               OrderStatusType = 'c' // 已触发
 )
 
 type ActionFlagType byte
