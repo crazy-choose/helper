@@ -76,6 +76,11 @@ type InstrumentInfo struct {
 	ExchangeInstID         string          `json:"exchange_inst_id"`          // 合约在交易所的代码
 	ProductID              string          `json:"product_id"`                // 产品代码
 	UnderlyingInstrID      string          `json:"underlying_instr_id"`       // 基础商品代码
+
+	InstrumentStatus byte   `json:"instrument_status"`  // 合约交易状态 byte(从status更新而来)
+	TradingSegmentSN int    `json:"trading_segment_sn"` // 交易阶段编号 int32(从status更新而来)
+	EnterTime        string `json:"enter_time"`         // 进入本状态时间 [9]byte(从status更新而来)
+	EnterReason      byte   `json:"enter_reason"`       // 进入本状态原因 byte(从status更新而来)
 }
 
 // InstrumentStatus 合约状态
