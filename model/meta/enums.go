@@ -78,3 +78,23 @@ const (
 	THOST_FTDC_AF_Delete ActionFlagType = '0'
 	THOST_FTDC_AF_Modify ActionFlagType = '3'
 )
+
+type InstrumentStatusType byte
+
+const (
+	THOST_FTDC_IS_BeforeTrading   InstrumentStatusType = '0'
+	THOST_FTDC_IS_NoTrading       InstrumentStatusType = '1'
+	THOST_FTDC_IS_Continous       InstrumentStatusType = '2'
+	THOST_FTDC_IS_AuctionOrdering InstrumentStatusType = '3'
+	THOST_FTDC_IS_AuctionBalance  InstrumentStatusType = '4'
+	THOST_FTDC_IS_AuctionMatch    InstrumentStatusType = '5'
+	THOST_FTDC_IS_Closed          InstrumentStatusType = '6'
+)
+
+type InstStatusEnterReasonType byte
+
+const (
+	THOST_FTDC_IER_Automatic InstStatusEnterReasonType = '1'
+	THOST_FTDC_IER_Manual    InstStatusEnterReasonType = '2'
+	THOST_FTDC_IER_Fuse      InstStatusEnterReasonType = '3'
+)
