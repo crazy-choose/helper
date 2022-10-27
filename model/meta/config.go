@@ -16,14 +16,14 @@ type Postgres struct {
 }
 
 type Redis struct {
-	Enabled      bool
-	Host         string
-	AuthKey      string
-	DbIndex      int
-	PoolSize     int
-	DialTimeout  time.Duration
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
+	Enabled      bool          `json:"enabled"`
+	Host         string        `json:"host"`
+	AuthKey      string        `json:"auth_key"`
+	DbIndex      int           `json:"db_index"`
+	PoolSize     int           `json:"pool_size"`
+	DialTimeout  time.Duration `json:"dial_timeout"`
+	ReadTimeout  time.Duration `json:"read_timeout"`
+	WriteTimeout time.Duration `json:"write_timeout"`
 }
 
 type Zap struct {
@@ -40,14 +40,13 @@ type Zap struct {
 }
 
 type CTPDeploy struct {
-	TradeFront []string
-	QuoteFront []string
-	BrokerID   string
-	Password   string
-	UserID     string
-	AppID      string
-	AuthCode   string
-	FundPassWD string
-	DelivDay   int
-	Products   []string
+	TradeFront []string `json:"trade_front"`
+	QuoteFront []string `json:"quote_front"`
+	BrokerID   string   `json:"broker_id"` //经纪公司代码
+	Password   string   `json:"password"`
+	UserID     string   `json:"user_id"`
+	AppID      string   `json:"app_id"`
+	AuthCode   string   `json:"auth_code"`
+	FundPassWD string   `json:"fund_pass_wd"` //资金密码
+	Products   []string `json:"products"`
 }
