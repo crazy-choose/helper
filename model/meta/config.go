@@ -16,16 +16,16 @@ type Postgres struct {
 }
 
 type Redis struct {
-	Enabled      bool          `json:"enabled"`
-	Host         string        `json:"host"`
-	AuthKey      string        `json:"auth_key"`
-	DbIndex      int           `json:"db_index"`
-	PoolSize     int           `json:"pool_size"`
-	DialTimeout  time.Duration `json:"dial_timeout"`
-	PoolTimeout  time.Duration `json:"pool_timeout"`
-	IdleTimeout  time.Duration `json:"idle_timeout"`
-	ReadTimeout  time.Duration `json:"read_timeout"`
-	WriteTimeout time.Duration `json:"write_timeout"`
+	Enabled      bool          `json:"enabled" toml:"enabled"`
+	Host         string        `json:"host" toml:"host"`
+	AuthKey      string        `json:"auth_key"  toml:"authKey"`
+	DbIndex      int           `json:"db_index" toml:"dbIndex"`
+	PoolSize     int           `json:"pool_size" toml:"poolSize"`
+	DialTimeout  time.Duration `json:"dial_timeout"  toml:"dialTimeout"`
+	PoolTimeout  time.Duration `json:"pool_timeout" toml:"poolTimeout"`
+	IdleTimeout  time.Duration `json:"idle_timeout" toml:"idleTimeout"`
+	ReadTimeout  time.Duration `json:"read_timeout" toml:"readTimeout"`
+	WriteTimeout time.Duration `json:"write_timeout" toml:"writeTimeout"`
 }
 
 type Zap struct {
