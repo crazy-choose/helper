@@ -22,6 +22,8 @@ type Redis struct {
 	DbIndex      int           `json:"db_index"`
 	PoolSize     int           `json:"pool_size"`
 	DialTimeout  time.Duration `json:"dial_timeout"`
+	PoolTimeout  time.Duration `json:"pool_timeout"`
+	IdleTimeout  time.Duration `json:"idle_timeout"`
 	ReadTimeout  time.Duration `json:"read_timeout"`
 	WriteTimeout time.Duration `json:"write_timeout"`
 }
