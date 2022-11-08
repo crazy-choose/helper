@@ -11,10 +11,11 @@ option go_package = "github.com/crazy-choose/helper/model/proto/pb";
 
 // 定义服务
 service GuideStrategy {
-  rpc TickNotify(StrategyNotify) returns (Resp) {}
+  rpc TickNotify(NotifyMsg) returns (Resp) {}
   rpc CycleNotify(CycleInfo) returns (Resp) {}
-  rpc OrderRtnNotify(StrategyNotify) returns (Resp);
-  rpc OrderTradeNotify(StrategyNotify) returns (Resp);
+  rpc CapitalNotify(NotifyMsg) returns (Resp) {}
+  rpc OrderRtnNotify(NotifyMsg) returns (Resp);
+  rpc OrderTradeNotify(NotifyMsg) returns (Resp);
 }
 
 service GuideTrade {
@@ -39,7 +40,7 @@ message TradeAction {
   optional string TriggerId = 4;
 }
 
-message StrategyNotify {
+message NotifyMsg {
   bytes body = 1;     //消息内容
 }
 
