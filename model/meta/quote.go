@@ -2,7 +2,7 @@ package meta
 
 import "github.com/shopspring/decimal"
 
-type TickCache struct {
+type TickInfo struct {
 	TradingDay         string          `json:"trading_day"`          // 交易日
 	InstrumentID       string          `json:"instrument_id"`        // 合约代码
 	ExchangeID         string          `json:"exchange_id"`          // 交易所代码
@@ -17,25 +17,29 @@ type TickCache struct {
 	Volume             int             `json:"volume"`               // 数量
 	Turnover           decimal.Decimal `json:"turnover"`             // 成交金额
 	OpenInterest       decimal.Decimal `json:"open_interest"`        // 持仓量
-	ClosePrice         decimal.Decimal `json:"close_price"`          // 今收盘
-	SettlementPrice    decimal.Decimal `json:"settlement_price"`     // 本次结算价
-	UpperLimitPrice    decimal.Decimal `json:"upper_limit_price"`    // 涨停板价
-	LowerLimitPrice    decimal.Decimal `json:"lower_limit_price"`    // 跌停板价
-	PreDelta           decimal.Decimal `json:"pre_delta"`            // 昨虚实度
-	CurrDelta          decimal.Decimal `json:"curr_delta"`           // 今虚实度
 	UpdateTime         string          `json:"update_time"`          // 最后修改时间
 	UpdateMillisec     int             `json:"update_millisec"`      // 最后修改毫秒
 	AveragePrice       decimal.Decimal `json:"average_price"`        // 当日均价
 	ActionDay          string          `json:"action_day"`           // 业务日期
+	UpperLimitPrice    decimal.Decimal `json:"upper_limit_price"`    // 涨停板价
+	LowerLimitPrice    decimal.Decimal `json:"lower_limit_price"`    // 跌停板价
+	BidPrice1          decimal.Decimal `json:"bid_price_1"`          // 申买价一
+	BidVolume1         int             `json:"bid_volume_1"`         // 申买量一
+	AskPrice1          decimal.Decimal `json:"ask_price_1"`          // 申卖价一
+	AskVolume1         int             `json:"ask_volume_1"`         // 申卖量一
+	ClosePrice         decimal.Decimal `json:"close_price"`          // 今收盘	-
+	SettlementPrice    decimal.Decimal `json:"settlement_price"`     // 本次结算价
+	PreDelta           decimal.Decimal `json:"pre_delta"`            // 昨虚实度
+	CurrDelta          decimal.Decimal `json:"curr_delta"`           // 今虚实度
 }
 
 // 行情响应
-type TickInfo struct {
-	TickCache
-	BidPrice1         decimal.Decimal `json:"bid_price_1"`         // 申买价一
-	BidVolume1        int             `json:"bid_volume_1"`        // 申买量一
-	AskPrice1         decimal.Decimal `json:"ask_price_1"`         // 申卖价一
-	AskVolume1        int             `json:"ask_volume_1"`        // 申卖量一
+type TickFull struct {
+	TickInfo
+	//BidPrice1         decimal.Decimal `json:"bid_price_1"`         // 申买价一
+	//BidVolume1        int             `json:"bid_volume_1"`        // 申买量一
+	//AskPrice1         decimal.Decimal `json:"ask_price_1"`         // 申卖价一
+	//AskVolume1        int             `json:"ask_volume_1"`        // 申卖量一
 	BidPrice2         decimal.Decimal `json:"bid_price_2"`         // 申买价二
 	BidVolume2        int             `json:"bid_volume_2"`        // 申买量二
 	AskPrice2         decimal.Decimal `json:"ask_price_2"`         // 申卖价二
