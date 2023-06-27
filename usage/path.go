@@ -30,6 +30,10 @@ func ExeName() string {
 	return en
 }
 
+func CfgFile(suffix string) string {
+	return ExeNameWithPath() + suffix
+}
+
 func ExeNameWithPath() string {
 	//获取执行文件名字
 	exeWithPath, err := exec.LookPath(os.Args[0])
