@@ -86,7 +86,7 @@ func Rotate() {
 
 func getLogWriter() zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   defaultName(),
+		Filename:   defLogName(),
 		MaxSize:    1024, //MB
 		MaxBackups: 0,    //文件数量 -0 无限制
 		MaxAge:     22,   //保留时间 -0 永久保存
