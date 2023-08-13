@@ -3,7 +3,6 @@ package usage
 import (
 	"crypto/md5"
 	"fmt"
-	"github.com/crazy-choose/helper/log"
 	"io/ioutil"
 	"os"
 )
@@ -22,7 +21,7 @@ func Md5Str(input string) string {
 func FileMd5(fn string) string {
 	file, e := os.Open(fn)
 	if e != nil {
-		log.Error("CheckMd5, open(%s) err:%v", fn, e)
+		fmt.Errorf("CheckMd5, open(%s) err:%v", fn, e)
 		return ""
 	}
 	defer file.Close()
