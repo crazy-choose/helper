@@ -17,6 +17,7 @@ type Postgres struct {
 
 type Redis struct {
 	Enabled      bool          `json:"enabled" toml:"enabled"`
+	Default      bool	   `json:"default" toml:"default"`
 	Host         string        `json:"host" toml:"host"`
 	AuthKey      string        `json:"auth_key"  toml:"authKey"`
 	DbIndex      int           `json:"db_index" toml:"dbIndex"`
