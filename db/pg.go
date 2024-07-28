@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"errors"
 	"github.com/crazy-choose/helper/log"
 	"github.com/crazy-choose/helper/model/meta"
 	"gorm.io/driver/postgres"
@@ -11,42 +10,56 @@ import (
 )
 
 var (
-	cfg              meta.Postgres
-	impl             *Session
-	ErrUninitialized = errors.New("pg client not initialized")
+	cfgMap map[string]meta.Postgres
+	pgsMap map[string]*Session // pg 连接map
+
 )
 
-func Init(opt meta.Postgres) {
-	cfg = opt
-	verifyConfig(opt)
+func init() {
+	cfgMap = make(map[string]meta.Postgres)
+	pgsMap = make(map[string]*Session)
+}
+
+func InitPg(key string, opt meta.Postgres) bool {
+	if !verifyConfig(opt) {
+		return false
+	}
+	cfgMap[key] = opt
 	pgConfig := postgres.Config{
 		PreferSimpleProtocol: true,
 		DSN:                  genDSN(opt), // DSN data source name
 	}
 	if db, err := gorm.Open(postgres.New(pgConfig)); err != nil {
 		log.Error(err.Error())
+		return false
 	} else {
 		sqlDB, _ := db.DB()
 		sqlDB.SetMaxIdleConns(opt.MaxIdleConns)
 		sqlDB.SetMaxOpenConns(opt.MaxOpenConns)
-		impl = &Session{
+		_pgs_ := &Session{
 			db,
 		}
+		pgsMap[key] = _pgs_
 		log.Info("InitPg success")
 	}
+	return true
 }
 
-func Postgres() *Session {
-	if impl == nil {
-		Init(cfg)
+func Postgres(key string) *Session {
+	if pgsMap == nil {
+		return nil
 	}
-	return impl
+
+	ret, _ := pgsMap[key]
+	return ret
 }
 
-func verifyConfig(option meta.Postgres) {
+func verifyConfig(option meta.Postgres) bool {
 	if option.DbName == "" {
-		log.Panic("dbname is empty")
+		log.Error("dbname is empty")
+		return false
 	}
+	return true
 }
 
 func genDSN(option meta.Postgres) string {
@@ -65,7 +78,7 @@ func (s *Session) Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions
 
 func Transaction(fc func(tx *Session) error, opts ...*sql.TxOptions) (err error) {
 	if impl == nil {
-		Init(cfg)
+		InitPgSig(cfgSig)
 	}
 	return impl.DB.Transaction(func(tx *gorm.DB) error {
 		return fc(&Session{tx})

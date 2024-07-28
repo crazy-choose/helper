@@ -87,10 +87,10 @@ func Rotate() {
 func getLogWriter() zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   defLogName(),
-		MaxSize:    1024, //MB
-		MaxBackups: 0,    //文件数量 -0 无限制
-		MaxAge:     22,   //保留时间 -0 永久保存
-		Compress:   true, //压缩
+		MaxSize:    1024,  //MB
+		MaxBackups: 0,     //文件数量 -0 无限制
+		MaxAge:     0,     //保留时间 -0 永久保存
+		Compress:   false, //压缩
 	}
 	ioWrite = lumberJackLogger
 	return zapcore.AddSync(ioWrite)
