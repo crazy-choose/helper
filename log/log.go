@@ -5,16 +5,22 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
 	"time"
 )
 
-var sugaredLogger *zap.SugaredLogger
-var atomicLevel zap.AtomicLevel
-var ioWrite *lumberjack.Logger
-
-//var execName string
+var (
+	sugaredLogger *zap.SugaredLogger
+	atomicLevel   zap.AtomicLevel
+	ioWrite       *lumberjack.Logger
+)
 
 func init() {
+	Initialize(false)
+}
+
+// Initialize 默认控制台输出, 如果需要文件输出, 请调用 Initialize(true)
+func Initialize(ioFile bool) {
 	encoderCfg := zapcore.EncoderConfig{
 		MessageKey:    "message",
 		LevelKey:      "level",
@@ -23,9 +29,9 @@ func init() {
 		CallerKey:     "caller",
 		StacktraceKey: "stacktrace",
 		LineEnding:    zapcore.DefaultLineEnding,
-		//	EncodeLevel:    zapcore.CapitalColorLevelEncoder,
-		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     CustomTimeEncoder,
+		EncodeLevel:   zapcore.CapitalColorLevelEncoder,
+		//EncodeLevel:    zapcore.CapitalLevelEncoder,
+		EncodeTime:     customTimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
@@ -34,17 +40,14 @@ func init() {
 	atomicLevel = zap.NewAtomicLevel()
 	atomicLevel.SetLevel(zapcore.DebugLevel)
 
-	//core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), os.Stdout, atomicLevel)
-	core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), getLogWriter(), atomicLevel)
+	core := zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), os.Stdout, atomicLevel)
+	if ioFile {
+		core = zapcore.NewCore(zapcore.NewConsoleEncoder(encoderCfg), getLogWriter(), atomicLevel)
+	}
 	logger := zap.New(core)
 	logger = logger.WithOptions(zap.AddCallerSkip(1))
 	logger = logger.WithOptions(zap.AddCaller())
 	sugaredLogger = logger.Sugar()
-}
-
-// 自定义日志输出时间格式
-func CustomTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-	enc.AppendString(t.Format("2006/01/02 15:04:05.000"))
 }
 
 func Logger() *zap.Logger {
@@ -84,6 +87,11 @@ func Rotate() {
 	ioWrite.Rotate()
 }
 
+// 自定义日志输出时间格式
+func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+	enc.AppendString(t.Format("2006/01/02 15:04:05.000000"))
+}
+
 func getLogWriter() zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   defLogName(),
@@ -95,3 +103,4 @@ func getLogWriter() zapcore.WriteSyncer {
 	ioWrite = lumberJackLogger
 	return zapcore.AddSync(ioWrite)
 }
+
