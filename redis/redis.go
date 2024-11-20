@@ -131,6 +131,16 @@ func ZRange(opt, key string, start, stop int64) *redis.StringSliceCmd {
 	return _rc_.ZRange(CTX, key, start, stop)
 }
 
+func HSet(opt, key, field string, value interface{}) *redis.IntCmd {
+	_rc_ := rcm[opt]
+	return _rc_.HSet(CTX, key, field, value)
+}
+
+func HGet(opt, key, field string) *redis.StringCmd {
+	_rc_ := rcm[opt]
+	return _rc_.HGet(CTX, key, field)
+}
+
 func HGetAll(opt, key string) *redis.MapStringStringCmd {
 	_rc_ := rcm[opt]
 	return _rc_.HGetAll(CTX, key)

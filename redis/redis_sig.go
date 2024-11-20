@@ -89,6 +89,14 @@ func SigZRange(key string, start, stop int64) *redis.StringSliceCmd {
 	return rcSig.ZRange(CTXSig, key, start, stop)
 }
 
+func SigHSet(opt, key, field string, value interface{}) *redis.IntCmd {
+	return rcSig.HSet(CTX, key, field, value)
+}
+
+func SigHGet(opt, key, field string) *redis.StringCmd {
+	return rcSig.HGet(CTX, key, field)
+}
+
 func SigHGetAll(key string) *redis.MapStringStringCmd {
 	return rcSig.HGetAll(CTXSig, key)
 }
