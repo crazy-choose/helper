@@ -99,39 +99,41 @@ const (
 	THOST_FTDC_IER_Fuse      InstStatusEnterReasonType = '3'
 )
 
-type HedgeFlagType byte // 投机套保标志类型
+
+
+type HedgeFlagTypes byte // 投机套保标志类型
 const (
-	HedgeFlagSpeculation HedgeFlagType = '1' // 投机
-	HedgeFlagArbitrage   HedgeFlagType = '2' // 套利
-	HedgeFlagHedge       HedgeFlagType = '3' // 套保
-	HedgeFlagMarketMaker HedgeFlagType = '5' // 做市商
-	HedgeFlagSpecHedge   HedgeFlagType = '6' // 第一腿投机第二腿套保 大商所专用
-	HedgeFlagHedgeSpec   HedgeFlagType = '7' // 第一腿套保第二腿投机  大商所专用
+	HedgeFlagSpeculation HedgeFlagTypes = '1' // 投机
+	HedgeFlagArbitrage   HedgeFlagTypes = '2' // 套利
+	HedgeFlagHedge       HedgeFlagTypes = '3' // 套保
+	HedgeFlagMarketMaker HedgeFlagTypes = '5' // 做市商
+	HedgeFlagSpecHedge   HedgeFlagTypes = '6' // 第一腿投机第二腿套保 大商所专用
+	HedgeFlagHedgeSpec   HedgeFlagTypes = '7' // 第一腿套保第二腿投机  大商所专用
 )
 
-type ProductClassType byte // 产品类型类型
+type ProductClassTypes byte // 产品类型类型
 const (
-	ProductClassFutures     ProductClassType = '1' // 期货
-	ProductClassOptions     ProductClassType = '2' // 期货期权
-	ProductClassCombination ProductClassType = '3' // 组合
-	ProductClassSpot        ProductClassType = '4' // 即期
-	ProductClassEFP         ProductClassType = '5' // 期转现
-	ProductClassSpotOption  ProductClassType = '6' // 现货期权
+	ProductClassFutures     ProductClassTypes = '1' // 期货
+	ProductClassOptions     ProductClassTypes = '2' // 期货期权
+	ProductClassCombination ProductClassTypes = '3' // 组合
+	ProductClassSpot        ProductClassTypes = '4' // 即期
+	ProductClassEFP         ProductClassTypes = '5' // 期转现
+	ProductClassSpotOption  ProductClassTypes = '6' // 现货期权
 )
 
-type OptionsTypeType byte // 期权类型
+type OptionsTypes byte // 期权类型
 const (
-	OptionsTypeCallOptions OptionsTypeType = '1' // 看涨
-	OptionsTypePutOptions  OptionsTypeType = '2' // 看跌
+	OptionsTypeCallOptions OptionsTypes = '1' // 看涨
+	OptionsTypePutOptions  OptionsTypes = '2' // 看跌
 )
 
-type CombinationTypeType byte // 组合类型
+type CombinationTypes byte // 组合类型
 const (
-	CombinationTypeFuture CombinationTypeType = '0' // 期货组合
-	CombinationTypeBUL    CombinationTypeType = '1' // 垂直价差BUL
-	CombinationTypeBER    CombinationTypeType = '2' // 垂直价差BER
-	CombinationTypeSTD    CombinationTypeType = '3' // 跨式组合
-	CombinationTypeSTG    CombinationTypeType = '4' // 宽跨式组合
-	CombinationTypePRT    CombinationTypeType = '5' // 备兑组合
-	CombinationTypeCLD    CombinationTypeType = '6' // 时间价差组合
+	CombinationTypeFuture CombinationTypes = '0' // 期货组合
+	CombinationTypeBUL    CombinationTypes = '1' // 垂直价差BUL
+	CombinationTypeBER    CombinationTypes = '2' // 垂直价差BER
+	CombinationTypeSTD    CombinationTypes = '3' // 跨式组合
+	CombinationTypeSTG    CombinationTypes = '4' // 宽跨式组合
+	CombinationTypePRT    CombinationTypes = '5' // 备兑组合
+	CombinationTypeCLD    CombinationTypes = '6' // 时间价差组合
 )
