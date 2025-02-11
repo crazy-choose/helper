@@ -29,7 +29,7 @@ type ZapLogger interface {
 	Error(msg string, fields ...zap.Field)
 }
 
-// Config is config setting for Ginzap
+// Config is config setting for Ginzap 
 type Config struct {
 	TimeFormat      string
 	UTC             bool
