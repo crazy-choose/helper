@@ -24,8 +24,8 @@ func TestAngle(t *testing.T) {
 	k2 := KLine{High: 2911, Low: 2883, Close: 2903}
 
 	// 计算上涨幅度
-	priceChange := (k2.Close - k1.Close) / k1.Close * 100
-	fmt.Printf("上涨幅度: %.2f%%\n", priceChange)
+	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
+	//fmt.Printf("上涨幅度: %.2f%%\n", priceChange)
 
 	// 计算波动基准（方法1：两根K线平均范围）
 	a1 := ((k1.High - k1.Low) + (k2.High - k2.Low)) / 2

@@ -11,7 +11,7 @@ import (
 // 定义时间格式和固定日期（用于解析不含日期的时间字符串）
 const (
 	timeLayout   = "2006-01-02 15:04:05" // Go标准时间格式
-	defaultDate  = "2000-01-01 "         // 默认日期
+	defaultDate  = "2000-01-01"          // 默认日期
 	timeParseErr = "时间解析错误: %v"
 )
 
@@ -30,6 +30,26 @@ func calcAngle(pre, cur meta.KlineInfo) float64 {
 	radians := math.Atan(priceDiff.Div(avgTr).InexactFloat64())
 	angle := radians * 180 / math.Pi
 	return angle
+}
+
+func calcAngle2(pre, cur meta.KlineInfo) float64 {
+	// 价格变动计算
+	priceDiff := cur.Close.Sub(pre.Close)
+	if pre.Close.IsZero() {
+		return 0
+	}
+	// 波动基准计算（增加除数校验）
+	rangePre := pre.High.Sub(pre.Low)
+	rangeCur := cur.High.Sub(cur.Low)
+	avgTr := rangePre.Add(rangeCur).Div(decimal.NewFromInt(2))
+	if avgTr.IsZero() {
+		return 0
+	}
+
+	// 角度计算
+	ratio := priceDiff.Div(avgTr)
+	radians := math.Atan(ratio.InexactFloat64()) // 注意精度损失
+	return radians * 180 / math.Pi
 }
 
 // target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
@@ -63,12 +83,18 @@ func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Durat
 
 // 计算最小dur值（满足条件：start_time + bt分钟 - update_time < dur）
 func calcTimeDur(startTimeStr, updateTimeStr string, bt int, dur time.Duration) (bool, error) {
+	// 修正日期拼接方式
+	parseWithDefaultDate := func(t string) (time.Time, error) {
+		fullTimeStr := fmt.Sprintf("%s %s", defaultDate, t)
+		return time.ParseInLocation(timeLayout, fullTimeStr, time.Local) // 指定本地时区
+	}
+
 	// 解析时间（自动补全默认日期）
-	startTime, err := time.Parse(timeLayout, defaultDate+startTimeStr)
+	startTime, err := parseWithDefaultDate(startTimeStr)
 	if err != nil {
 		return false, fmt.Errorf(timeParseErr, err)
 	}
-	updateTime, err := time.Parse(timeLayout, defaultDate+updateTimeStr)
+	updateTime, err := parseWithDefaultDate(updateTimeStr)
 	if err != nil {
 		return false, fmt.Errorf(timeParseErr, err)
 	}
