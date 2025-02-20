@@ -15,7 +15,7 @@ const (
 	timeParseErr = "时间解析错误: %v"
 )
 
-func AngleByClose(pre, cur meta.KlineInfo) float64 {
+func calcAngle(pre, cur meta.KlineInfo) float64 {
 	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
 	disClose := cur.Close.Sub(pre.Close)
 	priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
@@ -32,11 +32,17 @@ func AngleByClose(pre, cur meta.KlineInfo) float64 {
 	return angle
 }
 
+// target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
+func AngleByClose(pre, cur meta.KlineInfo, target float64) bool {
+	angle := calcAngle(pre, cur)
+	return angle >= target
+}
+
 // target := 40.0         // 目标角度区间下限（示例值，需根据策略调整）
 // vol := 1.5             // 成交量要求：当前K线成交量 >= 前一根的1.5倍
 // dur := 1 * time.Minute // 剩余时间阈值
 func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration) bool {
-	angle := AngleByClose(pre, cur)
+	angle := calcAngle(pre, cur)
 
 	// 2. 三重过滤条件 --------------------------------------------------
 	// 条件1：角度冗余度（当前角度 > 目标角度×1.2）
