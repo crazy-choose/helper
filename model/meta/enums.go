@@ -47,7 +47,7 @@ const (
 	THOST_FTDC_OPT_FiveLevelPrice          byte           = 'G' // 限价单
 )
 
-// 有效期类型
+//有效期类型
 type TimeConditionType byte
 
 const (
@@ -99,6 +99,8 @@ const (
 	THOST_FTDC_IER_Fuse      InstStatusEnterReasonType = '3'
 )
 
+
+
 type HedgeFlagTypes byte // 投机套保标志类型
 const (
 	HedgeFlagSpeculation HedgeFlagTypes = '1' // 投机
@@ -135,4 +137,3 @@ const (
 	CombinationTypePRT    CombinationTypes = '5' // 备兑组合
 	CombinationTypeCLD    CombinationTypes = '6' // 时间价差组合
 )
-
