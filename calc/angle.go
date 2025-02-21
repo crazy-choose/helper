@@ -54,32 +54,38 @@ func calcAngle2(pre, cur meta.KlineInfo) float64 {
 }
 
 // target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
-func AngleByClose(pre, cur meta.KlineInfo, target float64) bool {
+func AngleByClose(pre, cur meta.KlineInfo, target float64) meta.DirectionType {
 	angle := calcAngle(pre, cur)
-	return angle >= target
+	return angleOk(angle, target)
 }
 
 // target := 40.0         // 目标角度区间下限（示例值，需根据策略调整）
 // vol := 1.5             // 成交量要求：当前K线成交量 >= 前一根的1.5倍
 // dur := 1 * time.Minute // 剩余时间阈值
-func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration) bool {
+func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration) meta.DirectionType {
 	angle := calcAngle(pre, cur)
 
 	// 2. 三重过滤条件 --------------------------------------------------
 	// 条件1：角度冗余度（当前角度 > 目标角度×1.2）
-	angleCondition := angle > target*1.2
+	angleDir := angleOk(angle, target*1.2)
+	if angleDir == meta.DirectionNone {
+		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: 不满足\n", cur.InstrumentId, angle)
+		return angleDir
+	}
 
 	// 条件2：成交量放大（当前成交量 >= 前一根×volumeRatio）
 	volumeCondition := float64(cur.EVolume) >= float64(pre.EVolume)*vol
-
+	if !volumeCondition {
+		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:不满足\n", cur.InstrumentId, angle, vol)
+		return meta.DirectionNone
+	}
 	// 条件3：时间过滤（剩余时间 <= 阈值）
 	timeCondition, e := calcTimeDur(cur.StartTime, cur.UpdateTime, int(cur.Bt), dur)
 	if e != nil || !timeCondition {
-		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度:%v，成交量放大:%v, 剩余时间: %v\n", cur.InstrumentId, angle, angleCondition, volumeCondition, e)
-		return false
+		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:满足, 时间过滤:不满足\n", cur.InstrumentId, angle, vol)
+		return meta.DirectionNone
 	}
-	fmt.Printf("[%s][满足条件] 角度: %.2f度，角度冗余度:%v，成交量放大:%v, 剩余时间:%v \n", cur.InstrumentId, angle, angleCondition, volumeCondition, timeCondition)
-	return angleCondition && volumeCondition && timeCondition
+	return angleDir
 }
 
 // 计算最小dur值（满足条件：start_time + bt分钟 - update_time < dur）
@@ -108,5 +114,18 @@ func calcTimeDur(startTimeStr, updateTimeStr string, bt int, dur time.Duration) 
 	// - 若 newTime 在 updateTime 之后（diff > 0），则 dur必须 > diff
 	// - 若 newTime 在 updateTime 之前（diff <= 0），则任意 dur > diff 即可（通常取0）
 	return diff < dur, nil // 若diff为负，
+}
+
+func angleOk(angle, target float64) meta.DirectionType {
+	if angle > 0 {
+		if angle >= target {
+			return meta.DirectionBuy
+		}
+	} else {
+		if angle <= -target {
+			return meta.DirectionSell
+		}
+	}
+	return meta.DirectionNone
 }
 
