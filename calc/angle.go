@@ -17,9 +17,9 @@ const (
 
 func calcAngle(pre, cur meta.KlineInfo) float64 {
 	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
-	disClose := cur.Close.Sub(pre.Close)
-	priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
-	fmt.Printf("上涨幅度: %v\n", priceChange)
+	//disClose := cur.Close.Sub(pre.Close)
+	//priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
+	//fmt.Printf("上涨幅度: %v\n", priceChange)
 
 	// 计算波动基准（方法1：两根K线平均范围）
 	//a1 := ((k1.High - k1.Low) + (k2.High - k2.Low)) / 2
@@ -29,6 +29,7 @@ func calcAngle(pre, cur meta.KlineInfo) float64 {
 	priceDiff := cur.Close.Sub(pre.Close)
 	radians := math.Atan(priceDiff.Div(avgTr).InexactFloat64())
 	angle := radians * 180 / math.Pi
+	fmt.Printf("上涨|下跌->角度: %v\n", angle)
 	return angle
 }
 
@@ -108,3 +109,4 @@ func calcTimeDur(startTimeStr, updateTimeStr string, bt int, dur time.Duration) 
 	// - 若 newTime 在 updateTime 之前（diff <= 0），则任意 dur > diff 即可（通常取0）
 	return diff < dur, nil // 若diff为负，
 }
+
