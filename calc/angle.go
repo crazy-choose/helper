@@ -15,7 +15,7 @@ const (
 	timeParseErr = "时间解析错误: %v"
 )
 
-func calcAngle(pre, cur meta.KlineInfo) float64 {
+func calcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
 	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
 	//disClose := cur.Close.Sub(pre.Close)
 	//priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
@@ -29,7 +29,9 @@ func calcAngle(pre, cur meta.KlineInfo) float64 {
 	priceDiff := cur.Close.Sub(pre.Close)
 	radians := math.Atan(priceDiff.Div(avgTr).InexactFloat64())
 	angle := radians * 180 / math.Pi
-	fmt.Printf("上涨|下跌->角度: %v\n", angle)
+	if _fmt_ {
+		fmt.Printf("[%s][%s-%s] 涨|跌->角度: %v\n", cur.InstrumentId, cur.TradingDay, cur.UpdateTime, angle)
+	}
 	return angle
 }
 
@@ -54,35 +56,41 @@ func calcAngle2(pre, cur meta.KlineInfo) float64 {
 }
 
 // target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
-func AngleByClose(pre, cur meta.KlineInfo, target float64) meta.DirectionType {
-	angle := calcAngle(pre, cur)
+func AngleByClose(pre, cur meta.KlineInfo, target float64, _fmt_ bool) meta.DirectionType {
+	angle := calcAngle(pre, cur, _fmt_)
 	return angleOk(angle, target)
 }
 
 // target := 40.0         // 目标角度区间下限（示例值，需根据策略调整）
 // vol := 1.5             // 成交量要求：当前K线成交量 >= 前一根的1.5倍
 // dur := 1 * time.Minute // 剩余时间阈值
-func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration) meta.DirectionType {
-	angle := calcAngle(pre, cur)
+func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration, _fmt_ bool) meta.DirectionType {
+	angle := calcAngle(pre, cur, _fmt_)
 
 	// 2. 三重过滤条件 --------------------------------------------------
 	// 条件1：角度冗余度（当前角度 > 目标角度×1.2）
 	angleDir := angleOk(angle, target*1.2)
 	if angleDir == meta.DirectionNone {
-		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: 不满足\n", cur.InstrumentId, angle)
+		if _fmt_ {
+			fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: 不满足\n", cur.InstrumentId, angle)
+		}
 		return angleDir
 	}
 
 	// 条件2：成交量放大（当前成交量 >= 前一根×volumeRatio）
 	volumeCondition := float64(cur.EVolume) >= float64(pre.EVolume)*vol
 	if !volumeCondition {
-		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:不满足\n", cur.InstrumentId, angle, vol)
+		if _fmt_ {
+			fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:不满足\n", cur.InstrumentId, angle, vol)
+		}
 		return meta.DirectionNone
 	}
 	// 条件3：时间过滤（剩余时间 <= 阈值）
 	timeCondition, e := calcTimeDur(cur.StartTime, cur.UpdateTime, int(cur.Bt), dur)
 	if e != nil || !timeCondition {
-		fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:满足, 时间过滤:不满足\n", cur.InstrumentId, angle, vol)
+		if _fmt_ {
+			fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: ok，成交量放大[%v]:满足, 时间过滤:不满足\n", cur.InstrumentId, angle, vol)
+		}
 		return meta.DirectionNone
 	}
 	return angleDir
