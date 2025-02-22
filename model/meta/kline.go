@@ -18,6 +18,7 @@ const (
 	KlineType90Min  KlineType = 90
 	KlineType120Min KlineType = 120
 	KlineType180Min KlineType = 180
+	KlineTypeDay    KlineType = 1440
 )
 
 // KlineInfo K线
@@ -28,7 +29,8 @@ type KlineInfo struct {
 	Min           int             `json:"min"`
 	InstrumentId  string          `json:"instrument_id"`
 	ExchangeID    string          `json:"exchange_id"`
-	TradingDay    string          `json:"trading_day"`
+	TradingDay    string          `json:"trading_day"` // 交易日
+	ActionDay     string          `json:"action_day"`  // 业务日(夜盘品种显示自然日时间)
 	StartTime     string          `json:"start_time"`
 	UpdateTime    string          `json:"update_time"`
 	Open          decimal.Decimal `json:"open"`
