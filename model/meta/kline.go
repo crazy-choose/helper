@@ -21,12 +21,38 @@ const (
 	KlineTypeDay    KlineType = 1440
 )
 
-// KlineInfo K线
 type KlineInfo struct {
-	IsNew         bool            `json:"is_new"`
+	Bt            KlineType       `json:"bt" gorm:"index:idx_bt_instrument"` // 为 Bt 和 InstrumentId 创建复合索引
+	Min           int             `json:"min"`
 	IsFinal       bool            `json:"is_final"`
+	InstrumentId  string          `json:"instrument_id" gorm:"index:idx_bt_instrument"` // 为 Bt 和 InstrumentId 创建复合索引
+	ExchangeID    string          `json:"exchange_id"`
+	TradingDay    string          `json:"trading_day" gorm:"index:idx_trading_day_start_time"` // 为 TradingDay 和 StartTime 创建复合索引
+	ActionDay     string          `json:"action_day"`
+	StartTime     string          `json:"start_time" gorm:"index:idx_trading_day_start_time"` // 为 TradingDay 和 StartTime 创建复合索引
+	UpdateTime    string          `json:"update_time"`
+	Open          decimal.Decimal `json:"open"`
+	High          decimal.Decimal `json:"high"`
+	Low           decimal.Decimal `json:"low"`
+	Close         decimal.Decimal `json:"close"`
+	LastPrice     decimal.Decimal `json:"last_price"`
+	SVolume       int             `json:"s_volume"`
+	EVolume       int             `json:"e_volume"`
+	TurnOver      decimal.Decimal `json:"turn_over"`
+	SOpenInterest decimal.Decimal `json:"s_open_interest"`
+	EOpenInterest decimal.Decimal `json:"e_open_interest"`
+	DisPrice      decimal.Decimal `json:"dis_price"`
+	RatioPrice    decimal.Decimal `json:"ratio"`
+	DisInterest   decimal.Decimal `json:"dis_interest"`
+	Qty           int             `json:"qty"`
+}
+
+// KlineInfo K线
+type KBInfo struct {
+	IsNew         bool            `json:"is_new"`
 	Bt            KlineType       `json:"bt"`
 	Min           int             `json:"min"`
+	IsFinal       bool            `json:"is_final"`
 	InstrumentId  string          `json:"instrument_id"`
 	ExchangeID    string          `json:"exchange_id"`
 	TradingDay    string          `json:"trading_day"` // 交易日
