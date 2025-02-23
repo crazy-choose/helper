@@ -22,15 +22,15 @@ const (
 )
 
 type KlineInfo struct {
-	Bt            KlineType       `json:"bt" gorm:"index:idx_bt_instrument"` // 为 Bt 和 InstrumentId 创建复合索引
+	Bt            KlineType       `json:"bt" `
 	Min           int             `json:"min"`
 	IsFinal       bool            `json:"is_final"`
-	InstrumentId  string          `json:"instrument_id" gorm:"index:idx_bt_instrument"` // 为 Bt 和 InstrumentId 创建复合索引
+	InstrumentId  string          `json:"instrument_id" gorm:"index:idx_instrument_trading"` // 创建索引
 	ExchangeID    string          `json:"exchange_id"`
-	TradingDay    string          `json:"trading_day" gorm:"index:idx_trading_day_start_time"` // 为 TradingDay 和 StartTime 创建复合索引
-	ActionDay     string          `json:"action_day"`
-	StartTime     string          `json:"start_time" gorm:"index:idx_trading_day_start_time"` // 为 TradingDay 和 StartTime 创建复合索引
-	UpdateTime    string          `json:"update_time"`
+	TradingDay    string          `json:"trading_day" gorm:"index:idx_instrument_trading"` // 创建索引
+	ActionDay     string          `json:"action_day" gorm:"index:idx_instrument_trading"`  // 创建索引
+	StartTime     string          `json:"start_time" gorm:"index:idx_instrument_trading"`  // 创建索引
+	UpdateTime    string          `json:"update_time" gorm:"index:idx_instrument_trading"` // 创建索引
 	Open          decimal.Decimal `json:"open"`
 	High          decimal.Decimal `json:"high"`
 	Low           decimal.Decimal `json:"low"`
