@@ -15,7 +15,7 @@ const (
 	timeParseErr = "时间解析错误: %v"
 )
 
-func calcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
+func CalcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
 	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
 	//disClose := cur.Close.Sub(pre.Close)
 	//priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
@@ -57,19 +57,19 @@ func calcAngle2(pre, cur meta.KlineInfo) float64 {
 
 // target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
 func AngleByClose(pre, cur meta.KlineInfo, target float64, _fmt_ bool) meta.DirectionType {
-	angle := calcAngle(pre, cur, _fmt_)
-	return angleOk(angle, target)
+	angle := CalcAngle(pre, cur, _fmt_)
+	return AngleOk(angle, target)
 }
 
 // target := 40.0         // 目标角度区间下限（示例值，需根据策略调整）
 // vol := 1.5             // 成交量要求：当前K线成交量 >= 前一根的1.5倍
 // dur := 1 * time.Minute // 剩余时间阈值
 func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Duration, _fmt_ bool) meta.DirectionType {
-	angle := calcAngle(pre, cur, _fmt_)
+	angle := CalcAngle(pre, cur, _fmt_)
 
 	// 2. 三重过滤条件 --------------------------------------------------
 	// 条件1：角度冗余度（当前角度 > 目标角度×1.2）
-	angleDir := angleOk(angle, target*1.2)
+	angleDir := AngleOk(angle, target*1.2)
 	if angleDir == meta.DirectionNone {
 		if _fmt_ {
 			fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: 不满足\n", cur.InstrumentId, angle)
@@ -124,7 +124,7 @@ func calcTimeDur(startTimeStr, updateTimeStr string, bt int, dur time.Duration) 
 	return diff < dur, nil // 若diff为负，
 }
 
-func angleOk(angle, target float64) meta.DirectionType {
+func AngleOk(angle, target float64) meta.DirectionType {
 	if angle > 0 {
 		if angle >= target {
 			return meta.DirectionBuy
@@ -136,4 +136,3 @@ func angleOk(angle, target float64) meta.DirectionType {
 	}
 	return meta.DirectionNone
 }
-
