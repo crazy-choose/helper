@@ -28,13 +28,15 @@ func calcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
 	// 计算波动基准（方法1：两根K线平均范围）
 	//a1 := ((k1.High - k1.Low) + (k2.High - k2.Low)) / 2
 	avgTr := (pre.High.Sub(pre.Low)).Add(cur.High.Sub(cur.Low)).Div(decimal.NewFromInt(2))
-
+	if avgTr == 0 {
+		return 0
+	}
 	// 计算角度
 	priceDiff := cur.Close.Sub(pre.Close)
 	radians := math.Atan(priceDiff.Div(avgTr).InexactFloat64())
 	angle := radians * 180 / math.Pi
 	if _fmt_ {
-		fmt.Printf("[%s][%s-%s] 涨|跌->角度: %v\n", cur.InstrumentId, cur.TradingDay, cur.UpdateTime, angle)
+		fmt.Printf("[%s-%s]:[%s]涨|跌->角度: %v\n", cur.TradingDay, cur.UpdateTime, cur.InstrumentId, angle)
 	}
 	return angle
 }
@@ -140,3 +142,4 @@ func AngleOk(angle, target float64) meta.DirectionType {
 	}
 	return meta.DirectionNone
 }
+
