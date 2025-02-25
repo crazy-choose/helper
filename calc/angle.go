@@ -28,7 +28,7 @@ func calcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
 	// 计算波动基准（方法1：两根K线平均范围）
 	//a1 := ((k1.High - k1.Low) + (k2.High - k2.Low)) / 2
 	avgTr := (pre.High.Sub(pre.Low)).Add(cur.High.Sub(cur.Low)).Div(decimal.NewFromInt(2))
-	if avgTr == 0 {
+	if avgTr.IsZero() {
 		return 0
 	}
 	// 计算角度
