@@ -2,6 +2,7 @@ package calc
 
 import (
 	"fmt"
+	"github.com/crazy-choose/helper/log"
 	"github.com/crazy-choose/helper/model/meta"
 	"github.com/shopspring/decimal"
 	"math"
@@ -15,56 +16,46 @@ const (
 	timeParseErr = "时间解析错误: %v"
 )
 
-func CalculateAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
-	return calcAngle(pre, cur, _fmt_)
-}
+func calcAngle(pre, cur meta.KlineInfo, debugMode bool) decimal.Decimal {
+	// 计算平均波动范围
+	prevRange := pre.High.Sub(pre.Low)
+	currRange := cur.High.Sub(cur.Low)
+	avgRange := prevRange.Add(currRange).Div(decimal.NewFromInt(2))
 
-func calcAngle(pre, cur meta.KlineInfo, _fmt_ bool) float64 {
-	//priceChange := (k2.Close - k1.Close) / k1.Close * 100
-	//disClose := cur.Close.Sub(pre.Close)
-	//priceChange := disClose.Div(pre.Close).Mul(decimal.NewFromFloat(100.0))
-	//fmt.Printf("上涨幅度: %v\n", priceChange)
-
-	// 计算波动基准（方法1：两根K线平均范围）
-	//a1 := ((k1.High - k1.Low) + (k2.High - k2.Low)) / 2
-	avgTr := (pre.High.Sub(pre.Low)).Add(cur.High.Sub(cur.Low)).Div(decimal.NewFromInt(2))
-	if avgTr.IsZero() {
-		return 0
+	if avgRange.IsZero() {
+		if debugMode && cur.Bt == 5 {
+			log.Debug("[%s-%s]:[%s-%d] 零波动范围", cur.TradingDay, cur.UpdateTime, cur.InstrumentId, cur.Bt)
+		}
+		return decimal.Zero
 	}
+
+	// 计算价格变化
+	priceChange := cur.Close.Sub(pre.Close)
+	if pre.Close.IsZero() {
+		if debugMode && cur.Bt == 5 {
+			log.Debug("[%s-%s]:[%s-%d] 价波动为零", cur.TradingDay, cur.UpdateTime, cur.InstrumentId, cur.Bt, priceChange)
+		}
+		return decimal.Zero
+	}
+
 	// 计算角度
-	priceDiff := cur.Close.Sub(pre.Close)
-	radians := math.Atan(priceDiff.Div(avgTr).InexactFloat64())
-	angle := radians * 180 / math.Pi
-	if _fmt_ {
-		fmt.Printf("[%s-%s]:[%s]涨|跌->角度: %v\n", cur.TradingDay, cur.UpdateTime, cur.InstrumentId, angle)
+	ratio := priceChange.Div(avgRange).InexactFloat64()
+	radians := math.Atan(ratio)
+	angle := decimal.NewFromFloatWithExponent(radians*(180/math.Pi), -2)
+	if debugMode && cur.Bt == 5 {
+		log.Debug("[%s-%s]:[%s-%d] 角度: %v", cur.TradingDay, cur.UpdateTime, cur.InstrumentId, cur.Bt, angle)
 	}
 	return angle
 }
 
-func calcAngle2(pre, cur meta.KlineInfo) float64 {
-	// 价格变动计算
-	priceDiff := cur.Close.Sub(pre.Close)
-	if pre.Close.IsZero() {
-		return 0
-	}
-	// 波动基准计算（增加除数校验）
-	rangePre := pre.High.Sub(pre.Low)
-	rangeCur := cur.High.Sub(cur.Low)
-	avgTr := rangePre.Add(rangeCur).Div(decimal.NewFromInt(2))
-	if avgTr.IsZero() {
-		return 0
-	}
-
-	// 角度计算
-	ratio := priceDiff.Div(avgTr)
-	radians := math.Atan(ratio.InexactFloat64()) // 注意精度损失
-	return radians * 180 / math.Pi
+func CalculateAngleHL(pre, cur meta.KlineInfo, _fmt_ bool) decimal.Decimal {
+	return calcAngle(pre, cur, _fmt_)
 }
 
 // target := 40.0  // 目标角度区间下限（示例值，需根据策略调整）
 func AngleByClose(pre, cur meta.KlineInfo, target float64, _fmt_ bool) meta.DirectionType {
 	angle := calcAngle(pre, cur, _fmt_)
-	return AngleOk(angle, target)
+	return AngleOk(angle.InexactFloat64(), target)
 }
 
 // target := 40.0         // 目标角度区间下限（示例值，需根据策略调整）
@@ -75,7 +66,7 @@ func AngleByHalfway(pre, cur meta.KlineInfo, target, vol float64, dur time.Durat
 
 	// 2. 三重过滤条件 --------------------------------------------------
 	// 条件1：角度冗余度（当前角度 > 目标角度×1.2）
-	angleDir := AngleOk(angle, target*1.2)
+	angleDir := AngleOk(angle.InexactFloat64(), target*1.2)
 	if angleDir == meta.DirectionNone {
 		if _fmt_ {
 			fmt.Printf("[%s][未满足条件] 角度: %.2f度，角度冗余度: 不满足\n", cur.InstrumentId, angle)
@@ -142,4 +133,3 @@ func AngleOk(angle, target float64) meta.DirectionType {
 	}
 	return meta.DirectionNone
 }
-

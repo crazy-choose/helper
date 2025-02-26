@@ -1,6 +1,8 @@
 package meta
 
-import "github.com/shopspring/decimal"
+import (
+	"github.com/shopspring/decimal"
+)
 
 // 资金账户
 type AccountInfo struct {
@@ -55,14 +57,21 @@ type AccountInfo struct {
 	RemainSwap                     decimal.Decimal `json:"remain_swap" gorm:"column:remain_swap;comment:剩余换汇额度;"`                                                              // 剩余换汇额度
 }
 
-//持仓
+type PosDateType byte
+
+const (
+	THOST_FTDC_PSD_Today   PosDateType = '1'
+	THOST_FTDC_PSD_History PosDateType = '2'
+)
+
+// 持仓
 type Position struct {
 	Reserve1           string          `json:"reserve1" gorm:"column:reserve1;comment:保留的无效字段;"`                                          //保留的无效字段
 	BrokerID           string          `json:"broker_id" gorm:"column:broker_id;comment:经纪公司代码;index:idx_broker_id,type:btree"`           //经纪公司代码
 	InvestorID         string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`      //投资者代码
 	PosiDirection      byte            `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`                               //持仓多空方向
 	HedgeFlag          byte            `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`                                       // 投机套保标志
-	PositionDate       byte            `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
+	PositionDate       PosDateType     `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
 	Position           int             `json:"position" gorm:"column:position;comment:当前总持仓;"`                                            // 当前总持仓
 	YdPosition         int             `json:"yd_position "gorm:"column:yd_position;comment:上日持仓;"`                                       // 上日持仓
 	TodayPosition      int             `json:"today_position "gorm:"column:today_position;comment:表示今新开仓;"`                               // 表示今新开仓
@@ -102,4 +111,12 @@ type Position struct {
 	PositionCostOffset decimal.Decimal `json:"position_cost_offset "gorm:"column:position_cost_offset;comment:大商所持仓成本差值，只有大商所使用;"`        // 大商所持仓成本差值，只有大商所使用
 	InstrumentID       string          `json:"instrument_id "gorm:"column:instrument_id;comment:合约代码;index:idx_instrument_id,type:btree"` // 合约代码
 	InstrumentName     string          `json:"instrument_name "gorm:"column:instrument_name;comment:合约名;"`                                // 合约名
+}
+
+// vm:合约数量乘数 x 持仓数量
+func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
+	if impl.PositionDate == THOST_FTDC_PSD_Today {
+		return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.TodayPosition)))
+	}
+	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.YdPosition)))
 }
