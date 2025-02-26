@@ -115,8 +115,18 @@ type Position struct {
 
 // vm:合约数量乘数 x 持仓数量
 func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
+	if vm == 0 {
+		return decimal.Zero
+	}
 	if impl.PositionDate == THOST_FTDC_PSD_Today {
+		if impl.TodayPosition == 0 {
+			return decimal.Zero
+		}
 		return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.TodayPosition)))
+	} else {
+		if impl.YdPosition == 0 {
+			return decimal.Zero
+		}
 	}
 	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.YdPosition)))
 }
