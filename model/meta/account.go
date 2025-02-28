@@ -60,9 +60,9 @@ type AccountInfo struct {
 type PosDateType byte
 
 const (
-	THOST_FTDC_PSD_Today   PosDateType = '1' //纯今日
-	THOST_FTDC_PSD_YD      PosDateType = '2' //昨日仓位夜盘
-	THOST_FTDC_PSD_History PosDateType = '3' //
+	THOST_FTDC_PSD_Today   PosDateType = '0' //纯今日
+	THOST_FTDC_PSD_YD      PosDateType = '1' //昨日仓位夜盘
+	THOST_FTDC_PSD_History PosDateType = '2' //
 )
 
 // 持仓
