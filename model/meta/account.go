@@ -60,8 +60,8 @@ type AccountInfo struct {
 type PosDateType byte
 
 const (
-	THOST_FTDC_PSD_Today   PosDateType = '0' //纯今日
-	THOST_FTDC_PSD_YD      PosDateType = '1' //昨日仓位夜盘
+	//THOST_FTDC_PSD_Today   PosDateType = '0' //纯今日
+	THOST_FTDC_PSD_Today   PosDateType = '1' //昨日仓位夜盘
 	THOST_FTDC_PSD_History PosDateType = '2' //
 )
 
@@ -119,15 +119,15 @@ func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
 	if vm == 0 {
 		return decimal.Zero
 	}
-	if impl.PositionDate == byte(THOST_FTDC_PSD_Today) {
-		if impl.TodayPosition == 0 {
-			return decimal.Zero
-		}
-		return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.TodayPosition)))
-	} else {
-		if impl.Position == 0 {
-			return decimal.Zero
-		}
-	}
+	//if impl.PositionDate == byte(THOST_FTDC_PSD_Today) {
+	//	if impl.TodayPosition == 0 {
+	//		return decimal.Zero
+	//	}
+	//	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.TodayPosition)))
+	//} else {
+	//	if impl.Position == 0 {
+	//		return decimal.Zero
+	//	}
+	//}
 	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.Position)))
 }
