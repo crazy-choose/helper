@@ -60,8 +60,9 @@ type AccountInfo struct {
 type PosDateType byte
 
 const (
-	THOST_FTDC_PSD_Today   PosDateType = '1'
-	THOST_FTDC_PSD_History PosDateType = '2'
+	THOST_FTDC_PSD_Today   PosDateType = '1' //纯今日
+	THOST_FTDC_PSD_YD      PosDateType = '2' //昨日仓位夜盘
+	THOST_FTDC_PSD_History PosDateType = '3' //
 )
 
 // 持仓
@@ -71,7 +72,7 @@ type Position struct {
 	InvestorID         string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`      //投资者代码
 	PosiDirection      byte            `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`                               //持仓多空方向
 	HedgeFlag          byte            `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`                                       // 投机套保标志
-	PositionDate       PosDateType     `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
+	PositionDate       byte            `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"` // 持仓日期
 	Position           int             `json:"position" gorm:"column:position;comment:当前总持仓;"`                                            // 当前总持仓
 	YdPosition         int             `json:"yd_position "gorm:"column:yd_position;comment:上日持仓;"`                                       // 上日持仓
 	TodayPosition      int             `json:"today_position "gorm:"column:today_position;comment:表示今新开仓;"`                               // 表示今新开仓
@@ -118,15 +119,15 @@ func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
 	if vm == 0 {
 		return decimal.Zero
 	}
-	if impl.PositionDate == THOST_FTDC_PSD_Today {
+	if impl.PositionDate == byte(THOST_FTDC_PSD_Today) {
 		if impl.TodayPosition == 0 {
 			return decimal.Zero
 		}
 		return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.TodayPosition)))
 	} else {
-		if impl.YdPosition == 0 {
+		if impl.Position == 0 {
 			return decimal.Zero
 		}
 	}
-	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.YdPosition)))
+	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.Position)))
 }
