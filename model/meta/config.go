@@ -17,7 +17,7 @@ type Postgres struct {
 
 type Redis struct {
 	Enabled      bool          `json:"enabled" toml:"enabled"`
-	Default      bool	   `json:"default" toml:"default"`
+	Default      bool          `json:"default" toml:"default"`
 	Host         string        `json:"host" toml:"host"`
 	AuthKey      string        `json:"auth_key"  toml:"authKey"`
 	DbIndex      int           `json:"db_index" toml:"dbIndex"`
@@ -53,3 +53,4 @@ type CTPDeploy struct {
 	FundPassWD string   `json:"fund_pass_wd"` //资金密码
 	Products   []string `json:"products"`
 }
+

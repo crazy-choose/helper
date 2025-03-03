@@ -31,7 +31,7 @@ type TickInfo struct {
 	SettlementPrice    decimal.Decimal `json:"settlement_price"`     // 本次结算价
 	PreDelta           decimal.Decimal `json:"pre_delta"`            // 昨虚实度
 	CurrDelta          decimal.Decimal `json:"curr_delta"`           // 今虚实度
-	Analyze		   string          `json:"analyze"`	         // 变动方向|多开-空平-双开
+	Analyze            string          `json:"analyze"`              // 变动方向|多开-空平-双开
 }
 
 // 行情响应
@@ -64,3 +64,4 @@ type TickFull struct {
 type SpecificInstrument struct {
 	InstrumentID string `json:"instrument_id"` // 合约代码
 }
+

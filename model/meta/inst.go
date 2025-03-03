@@ -58,8 +58,8 @@ type InstrumentStatus struct {
 	EnterReason       byte   `json:"enter_reason"`        // 进入本状态原因 byte
 	ExchangeInstID    string `json:"exchange_inst_id"`    // 合约在交易所的代码 [81]byte
 	InstrumentID      string `json:"instrument_id"`       // 合约代码 [81]byte
-	StatusZN          string `json:"status_zn"`           //当前状态中文
 
+	StatusZN            string `json:"status_zn"`              //当前状态中文
 	PreTradingSegmentSN int    `json:"pre_trading_segment_sn"` // 前交易阶段编号(自加)
 	PreStatus           string `json:"pre_status"`             //前状态(自加)
 	PreEnterTime        string `json:"pre_enter_time"`         //前状态进入时间(自加)
