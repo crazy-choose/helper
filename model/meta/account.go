@@ -55,6 +55,14 @@ type AccountInfo struct {
 	RemainSwap                     decimal.Decimal `json:"remain_swap" gorm:"column:remain_swap;comment:剩余换汇额度;"`                                                              // 剩余换汇额度
 }
 
+type PosDateType byte
+
+const (
+	//THOST_FTDC_PSD_Today   PosDateType = '0' //纯今日
+	THOST_FTDC_PSD_Today   PosDateType = '1' //今日(49)
+	THOST_FTDC_PSD_History PosDateType = '2' //旧仓(50)
+)
+
 // 持仓
 type Position struct {
 	BrokerID           string          `json:"broker_id" gorm:"column:broker_id;comment:经纪公司代码;index:idx_broker_id,type:btree"`
@@ -102,5 +110,13 @@ type Position struct {
 	YdStrikeFrozen     int             `json:"yd_strike_frozen" gorm:"column:yd_strike_frozen;comment:执行冻结的昨仓;"`
 	PositionCostOffset decimal.Decimal `json:"position_cost_offset" gorm:"column:position_cost_offset;comment:大商所持仓成本差值，只有大商所使用;"`
 	Reserve1           string          `json:"reserve1" gorm:"column:reserve1;comment:保留的无效字段;"`
+}
+
+// vm:合约数量乘数 x 持仓数量
+func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
+	if vm == 0 {
+		return decimal.Zero
+	}
+	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.Position)))
 }
 
