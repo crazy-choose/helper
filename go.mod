@@ -1,6 +1,6 @@
 module github.com/crazy-choose/helper
 
-go 1.23.2
+go 1.24.4
 
 require (
 	github.com/andreburgaud/crypt2go v1.5.0

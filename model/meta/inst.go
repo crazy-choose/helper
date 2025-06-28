@@ -2,13 +2,13 @@ package meta
 
 import "github.com/shopspring/decimal"
 
-// 合约信息
+// InstrumentInfo 合约信息
 type InstrumentInfo struct {
-	reserve1               string           `json:"reserve_1"`                 // 保留的无效字段
+	reserve1               string           `json:"-"`                         // 保留的无效字段
 	ExchangeID             string           `json:"exchange_id"`               // 交易所代码
 	InstrumentName         string           `json:"instrument_name"`           // 合约名称
-	reserve2               string           `json:"reserve_2"`                 // 保留的无效字段
-	reserve3               string           `json:"reserve_3"`                 // 保留的无效字段
+	reserve2               string           `json:"-"`                         // 保留的无效字段
+	reserve3               string           `json:"-"`                         // 保留的无效字段
 	ProductClass           byte             `json:"product_class"`             // 产品类型	//ProductClassTypes
 	DeliveryYear           int              `json:"delivery_year"`             // 交割年份
 	DeliveryMonth          int              `json:"delivery_month"`            // 交割月
@@ -30,7 +30,7 @@ type InstrumentInfo struct {
 	LongMarginRatio        decimal.Decimal  `json:"long_margin_ratio"`         // 多头保证金率
 	ShortMarginRatio       decimal.Decimal  `json:"short_margin_ratio"`        // 空头保证金率
 	MaxMarginSideAlgorithm byte             `json:"max_margin_side_algorithm"` // 是否使用大额单边保证金算法
-	reserve4               string           `json:"reserve_4"`                 // 保留的无效字段
+	reserve4               string           `json:"-"`                         // 保留的无效字段
 	StrikePrice            decimal.Decimal  `json:"strike_price"`              // 执行价
 	OptionsType            OptionsTypes     `json:"options_type"`              // 期权类型
 	UnderlyingMultiple     decimal.Decimal  `json:"underlying_multiple"`       // 合约基础商品乘数
@@ -58,7 +58,10 @@ type InstrumentStatus struct {
 	EnterReason       byte   `json:"enter_reason"`        // 进入本状态原因 byte
 	ExchangeInstID    string `json:"exchange_inst_id"`    // 合约在交易所的代码 [81]byte
 	InstrumentID      string `json:"instrument_id"`       // 合约代码 [81]byte
+	InsExtInfo
+}
 
+type InsExtInfo struct {
 	StatusZN            string `json:"status_zn"`              //当前状态中文
 	PreTradingSegmentSN int    `json:"pre_trading_segment_sn"` // 前交易阶段编号(自加)
 	PreStatus           string `json:"pre_status"`             //前状态(自加)
