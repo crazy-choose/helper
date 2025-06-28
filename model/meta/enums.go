@@ -47,7 +47,7 @@ const (
 	THOST_FTDC_OPT_FiveLevelPrice          byte           = 'G' // 限价单
 )
 
-//有效期类型
+// 有效期类型
 type TimeConditionType byte
 
 const (
@@ -99,8 +99,6 @@ const (
 	THOST_FTDC_IER_Fuse      InstStatusEnterReasonType = '3'
 )
 
-
-
 type HedgeFlagTypes byte // 投机套保标志类型
 const (
 	HedgeFlagSpeculation HedgeFlagTypes = '1' // 投机
@@ -119,6 +117,8 @@ const (
 	ProductClassSpot        ProductClassTypes = '4' // 即期
 	ProductClassEFP         ProductClassTypes = '5' // 期转现
 	ProductClassSpotOption  ProductClassTypes = '6' // 现货期权
+	ProductClassTAS         ProductClassTypes = '7' // TAS合约
+	ProductClassMI          ProductClassTypes = 'I' // 金属指数
 )
 
 type OptionsTypes byte // 期权类型
