@@ -4,8 +4,8 @@ import (
 	"unsafe"
 )
 
-func (x *TickInfo) Swigcptr() uintptr               { return uintptr(unsafe.Pointer(x)) }
-func (x *TickInfo) CThostFtdcDepthMarketDataField() {}
+func (x *TickInfo) Swigcptr() uintptr                     { return uintptr(unsafe.Pointer(x)) }
+func (x *TickInfo) SwigIsCThostFtdcDepthMarketDataField() {}
 
 // SetTradingDay 设置交易日
 func (x *TickInfo) SetTradingDay(value string) { x.TradingDay = value }
