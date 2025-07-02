@@ -4,178 +4,161 @@ import (
 	"unsafe"
 )
 
-func (x *TickInfo) Swigcptr() uintptr {
-	return uintptr(unsafe.Pointer(x))
-}
+func (x *TickInfo) Swigcptr() uintptr               { return uintptr(unsafe.Pointer(x)) }
+func (x *TickInfo) CThostFtdcDepthMarketDataField() {}
 
-func (x *TickInfo) SwigIsCThostFtdcInstrumentCommissionRateField() {}
-func (x *TickInfo) SetInstrumentID(value string)                   { x.InstrumentID = value }
-func (x *TickInfo) SetExchangeID(value string) {
-	x.ExchangeID = value
-}
-func (x *TickInfo) SetExchangeInstID(value string) {
-	x.ExchangeInstID = value
-}
-func (x *TickInfo) SetLastPrice(value float64) {
-	x.LastPrice = value
-}
-func (x *TickInfo) SetPreSettlementPrice(value float64) {
-	x.PreSettlementPrice = value
-}
-func (x *TickInfo) SetPreClosePrice(value float64) {
-	x.PreClosePrice = value
-}
-func (x *TickInfo) SetPreOpenInterest(value float64) {
-	x.PreOpenInterest = value
-}
-func (x *TickInfo) SetOpenPrice(value float64) {
-	x.OpenPrice = value
-}
-func (x *TickInfo) SetClosePrice(value float64) {
-	x.ClosePrice = value
-}
-func (x *TickInfo) SetSettlementPrice(value float64) {
-	x.SettlementPrice = value
-}
-func (x *TickInfo) SetHighestPrice(value float64) {
-	x.HighestPrice = value
-}
-func (x *TickInfo) SetLowestPrice(value float64) {
-	x.LowestPrice = value
-}
-func (x *TickInfo) SetVolume(value int) {
-	x.Volume = int32(value)
-}
-func (x *TickInfo) SetTurnover(value float64) {
-	x.Turnover = value
-}
-func (x *TickInfo) SetOpenInterest(value float64) {
-	x.OpenInterest = value
-}
-func (x *TickInfo) SetUpdateTime(value string) {
-	x.UpdateTime = value
-}
-func (x *TickInfo) SetUpdateMillisec(value int) {
-	x.UpdateMillisec = int32(value)
-}
-func (x *TickInfo) SetAveragePrice(value float64) {
-	x.AveragePrice = value
-}
-func (x *TickInfo) SetActionDay(value string) {
-	x.ActionDay = value
-}
-func (x *TickInfo) SetUpperLimitPrice(value float64) {
-	x.UpperLimitPrice = value
-}
-func (x *TickInfo) SetLowerLimitPrice(value float64) {
-	x.LowerLimitPrice = value
-}
-func (x *TickInfo) SetBidPrice1(value float64) {
-	x.BidPrice1 = value
-}
-func (x *TickInfo) SetBidVolume1(value int) {
-	x.BidVolume1 = int32(value)
-}
+// SetTradingDay 设置交易日
+func (x *TickInfo) SetTradingDay(value string) { x.TradingDay = value }
 
-func (x *TickInfo) SetAskPrice1(value float64) {
-	x.AskPrice1 = value
-}
+// SetReserve1 设置保留字段1
+func (x *TickInfo) SetReserve1(value string) { x.Reserve1 = value }
 
-func (x *TickInfo) SetAskVolume1(value int) {
-	x.AskVolume1 = int32(value)
-}
+// SetExchangeID 设置交易所代码
+func (x *TickInfo) SetExchangeID(value string) { x.ExchangeID = value }
 
-func (x *TickInfo) SetBidPrice2(value float64) {
-	x.BidPrice2 = value
-}
+// SetReserve2 设置保留字段2
+func (x *TickInfo) SetReserve2(value string) { x.Reserve2 = value }
 
-func (x *TickInfo) SetBidVolume2(value int) {
-	x.BidVolume2 = int32(value)
-}
+// SetLastPrice 设置最新价
+func (x *TickInfo) SetLastPrice(value float64) { x.LastPrice = value }
 
-func (x *TickInfo) SetAskPrice2(value float64) {
-	x.AskPrice2 = value
-}
+// SetPreSettlementPrice 设置上次结算价
+func (x *TickInfo) SetPreSettlementPrice(value float64) { x.PreSettlementPrice = value }
 
-func (x *TickInfo) SetAskVolume2(value int) {
-	x.AskVolume2 = int32(value)
-}
+// SetPreClosePrice 设置昨收盘
+func (x *TickInfo) SetPreClosePrice(value float64) { x.PreClosePrice = value }
 
-func (x *TickInfo) SetBidPrice3(value float64) {
-	x.BidPrice3 = value
-}
+// SetPreOpenInterest 设置昨持仓量
+func (x *TickInfo) SetPreOpenInterest(value float64) { x.PreOpenInterest = value }
 
-func (x *TickInfo) SetBidVolume3(value int) {
-	x.BidVolume3 = int32(value)
-}
+// SetOpenPrice 设置今开盘
+func (x *TickInfo) SetOpenPrice(value float64) { x.OpenPrice = value }
 
-func (x *TickInfo) SetAskPrice3(value float64) {
-	x.AskPrice3 = value
-}
+// SetHighestPrice 设置最高价
+func (x *TickInfo) SetHighestPrice(value float64) { x.HighestPrice = value }
 
-func (x *TickInfo) SetAskVolume3(value int) {
-	x.AskVolume3 = int32(value)
-}
+// SetLowestPrice 设置最低价
+func (x *TickInfo) SetLowestPrice(value float64) { x.LowestPrice = value }
 
-func (x *TickInfo) SetBidPrice4(value float64) {
-	x.BidPrice4 = value
-}
+// SetVolume 设置成交量
+func (x *TickInfo) SetVolume(value int) { x.Volume = int32(value) }
 
-func (x *TickInfo) SetBidVolume4(value int) {
-	x.BidVolume4 = int32(value)
-}
+// SetTurnover 设置成交金额
+func (x *TickInfo) SetTurnover(value float64) { x.Turnover = value }
 
-func (x *TickInfo) SetAskPrice4(value float64) {
-	x.AskPrice4 = value
-}
+// SetOpenInterest 设置持仓量
+func (x *TickInfo) SetOpenInterest(value float64) { x.OpenInterest = value }
 
-func (x *TickInfo) SetAskVolume4(value int) {
-	x.AskVolume4 = int32(value)
-}
+// SetClosePrice 设置今收盘
+func (x *TickInfo) SetClosePrice(value float64) { x.ClosePrice = value }
 
-func (x *TickInfo) SetBidPrice5(value float64) {
-	x.BidPrice5 = value
-}
+// SetSettlementPrice 设置本次结算价
+func (x *TickInfo) SetSettlementPrice(value float64) { x.SettlementPrice = value }
 
-func (x *TickInfo) SetBidVolume5(value int) {
-	x.BidVolume5 = int32(value)
-}
+// SetUpperLimitPrice 设置涨停板价
+func (x *TickInfo) SetUpperLimitPrice(value float64) { x.UpperLimitPrice = value }
 
-func (x *TickInfo) SetAskPrice5(value float64) {
-	x.AskPrice5 = value
-}
+// SetLowerLimitPrice 设置跌停板价
+func (x *TickInfo) SetLowerLimitPrice(value float64) { x.LowerLimitPrice = value }
 
-func (x *TickInfo) SetAskVolume5(value int) {
-	x.AskVolume5 = int32(value)
-}
+// SetPreDelta 设置昨虚实度
+func (x *TickInfo) SetPreDelta(value float64) { x.PreDelta = value }
 
-func (x *TickInfo) SetPreDelta(value float64) {
-	x.PreDelta = value
-}
+// SetCurrDelta 设置今虚实度
+func (x *TickInfo) SetCurrDelta(value float64) { x.CurrDelta = value }
 
-func (x *TickInfo) SetCurrDelta(value float64) {
-	x.CurrDelta = value
-}
+// SetUpdateTime 设置最后修改时间
+func (x *TickInfo) SetUpdateTime(value string) { x.UpdateTime = value }
 
-func (x *TickInfo) SetBandingUpperPrice(value float64) {
-	x.BandingUpperPrice = value
-}
+// SetUpdateMillisec 设置最后修改毫秒
+func (x *TickInfo) SetUpdateMillisec(value int) { x.UpdateMillisec = int32(value) }
 
-func (x *TickInfo) SetBandingLowerPrice(value float64) {
-	x.BandingLowerPrice = value
-}
+// SetBidPrice1 设置申买价一
+func (x *TickInfo) SetBidPrice1(value float64) { x.BidPrice1 = value }
 
-func (x *TickInfo) SetActionDirection(value int32) {
-	x.ActionDirection = value
-}
+// SetBidVolume1 设置申买量一
+func (x *TickInfo) SetBidVolume1(value int) { x.BidVolume1 = int32(value) }
 
-func (x *TickInfo) SetSyncDeltaSequenceNo(value int32) {
-	x.SyncDeltaSequenceNo = value
-}
+// SetAskPrice1 设置申卖价一
+func (x *TickInfo) SetAskPrice1(value float64) { x.AskPrice1 = value }
 
-func (x *TickInfo) SetAnalyze(value string) {
-	x.Analyze = value
-}
+// SetAskVolume1 设置申卖量一
+func (x *TickInfo) SetAskVolume1(value int) { x.AskVolume1 = int32(value) }
+
+// SetBidPrice2 设置申买价二
+func (x *TickInfo) SetBidPrice2(value float64) { x.BidPrice2 = value }
+
+// SetBidVolume2 设置申买量二
+func (x *TickInfo) SetBidVolume2(value int) { x.BidVolume2 = int32(value) }
+
+// SetAskPrice2 设置申卖价二
+func (x *TickInfo) SetAskPrice2(value float64) { x.AskPrice2 = value }
+
+// SetAskVolume2 设置申卖量二
+func (x *TickInfo) SetAskVolume2(value int) { x.AskVolume2 = int32(value) }
+
+// SetBidPrice3 设置申买价三
+func (x *TickInfo) SetBidPrice3(value float64) { x.BidPrice3 = value }
+
+// SetBidVolume3 设置申买量三
+func (x *TickInfo) SetBidVolume3(value int) { x.BidVolume3 = int32(value) }
+
+// SetAskPrice3 设置申卖价三
+func (x *TickInfo) SetAskPrice3(value float64) { x.AskPrice3 = value }
+
+// SetAskVolume3 设置申卖量三
+func (x *TickInfo) SetAskVolume3(value int) { x.AskVolume3 = int32(value) }
+
+// SetBidPrice4 设置申买价四
+func (x *TickInfo) SetBidPrice4(value float64) { x.BidPrice4 = value }
+
+// SetBidVolume4 设置申买量四
+func (x *TickInfo) SetBidVolume4(value int) { x.BidVolume4 = int32(value) }
+
+// SetAskPrice4 设置申卖价四
+func (x *TickInfo) SetAskPrice4(value float64) { x.AskPrice4 = value }
+
+// SetAskVolume4 设置申卖量四
+func (x *TickInfo) SetAskVolume4(value int) { x.AskVolume4 = int32(value) }
+
+// SetBidPrice5 设置申买价五
+func (x *TickInfo) SetBidPrice5(value float64) { x.BidPrice5 = value }
+
+// SetBidVolume5 设置申买量五
+func (x *TickInfo) SetBidVolume5(value int) { x.BidVolume5 = int32(value) }
+
+// SetAskPrice5 设置申卖价五
+func (x *TickInfo) SetAskPrice5(value float64) { x.AskPrice5 = value }
+
+// SetAskVolume5 设置申卖量五
+func (x *TickInfo) SetAskVolume5(value int) { x.AskVolume5 = int32(value) }
+
+// SetAveragePrice 设置当日均价
+func (x *TickInfo) SetAveragePrice(value float64) { x.AveragePrice = value }
+
+// SetActionDay 设置业务日期
+func (x *TickInfo) SetActionDay(value string) { x.ActionDay = value }
+
+// SetInstrumentID 设置合约代码
+func (x *TickInfo) SetInstrumentID(value string) { x.InstrumentID = value }
+
+// SetExchangeInstID 设置交易所合约代码
+func (x *TickInfo) SetExchangeInstID(value string) { x.ExchangeInstID = value }
+
+// SetBandingUpperPrice 设置上带价
+func (x *TickInfo) SetBandingUpperPrice(value float64) { x.BandingUpperPrice = value }
+
+// SetBandingLowerPrice 设置下带价
+func (x *TickInfo) SetBandingLowerPrice(value float64) { x.BandingLowerPrice = value }
+
+// SetActionDirection 设置操作标志
+func (x *TickInfo) SetActionDirection(value int) { x.ActionDirection = int32(value) }
+
+// SetSyncDeltaSequenceNo 设置追平序号
+func (x *TickInfo) SetSyncDeltaSequenceNo(value int) { x.SyncDeltaSequenceNo = int32(value) }
+
+// SetAnalyze 设置变动方向分析
+func (x *TickInfo) SetAnalyze(value string) { x.Analyze = value }
 
 // AccountInfo setters
 func (a *AccountInfo) Swigcptr() uintptr                        { return uintptr(unsafe.Pointer(a)) }
