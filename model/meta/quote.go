@@ -3,35 +3,37 @@ package meta
 import "github.com/shopspring/decimal"
 
 type TickInfo struct {
-	TradingDay         string          `json:"trading_day"`          // 交易日
-	InstrumentID       string          `json:"instrument_id"`        // 合约代码
-	ExchangeID         string          `json:"exchange_id"`          // 交易所代码
-	ExchangeInstID     string          `json:"exchange_inst_id"`     // 合约在交易所的代码
-	LastPrice          decimal.Decimal `json:"last_price"`           // 最新价
-	PreSettlementPrice decimal.Decimal `json:"pre_settlement_price"` // 上次结算价
-	PreClosePrice      decimal.Decimal `json:"pre_close_price"`      // 昨收盘
-	PreOpenInterest    decimal.Decimal `json:"pre_open_interest"`    // 昨持仓量
-	OpenPrice          decimal.Decimal `json:"open_price"`           // 今开盘
-	HighestPrice       decimal.Decimal `json:"highest_price"`        // 最高价
-	LowestPrice        decimal.Decimal `json:"lowest_price"`         // 最低价
-	Volume             int             `json:"volume"`               // 数量
-	Turnover           decimal.Decimal `json:"turnover"`             // 成交金额
-	OpenInterest       decimal.Decimal `json:"open_interest"`        // 持仓量
-	UpdateTime         string          `json:"update_time"`          // 最后修改时间
-	UpdateMillisec     int             `json:"update_millisec"`      // 最后修改毫秒
-	AveragePrice       decimal.Decimal `json:"average_price"`        // 当日均价
-	ActionDay          string          `json:"action_day"`           // 业务日期
-	UpperLimitPrice    decimal.Decimal `json:"upper_limit_price"`    // 涨停板价
-	LowerLimitPrice    decimal.Decimal `json:"lower_limit_price"`    // 跌停板价
-	BidPrice1          decimal.Decimal `json:"bid_price_1"`          // 申买价一
-	BidVolume1         int             `json:"bid_volume_1"`         // 申买量一
-	AskPrice1          decimal.Decimal `json:"ask_price_1"`          // 申卖价一
-	AskVolume1         int             `json:"ask_volume_1"`         // 申卖量一
-	ClosePrice         decimal.Decimal `json:"close_price"`          // 今收盘	-
-	SettlementPrice    decimal.Decimal `json:"settlement_price"`     // 本次结算价
-	PreDelta           decimal.Decimal `json:"pre_delta"`            // 昨虚实度
-	CurrDelta          decimal.Decimal `json:"curr_delta"`           // 今虚实度
-	Analyze            string          `json:"analyze"`              // 变动方向|多开-空平-双开
+	TradingDay          string          `json:"trading_day"`            // 交易日
+	InstrumentID        string          `json:"instrument_id"`          // 合约代码
+	ExchangeID          string          `json:"exchange_id"`            // 交易所代码
+	ExchangeInstID      string          `json:"exchange_inst_id"`       // 合约在交易所的代码
+	LastPrice           decimal.Decimal `json:"last_price"`             // 最新价
+	PreSettlementPrice  decimal.Decimal `json:"pre_settlement_price"`   // 上次结算价
+	PreClosePrice       decimal.Decimal `json:"pre_close_price"`        // 昨收盘
+	PreOpenInterest     decimal.Decimal `json:"pre_open_interest"`      // 昨持仓量
+	OpenPrice           decimal.Decimal `json:"open_price"`             // 今开盘
+	HighestPrice        decimal.Decimal `json:"highest_price"`          // 最高价
+	LowestPrice         decimal.Decimal `json:"lowest_price"`           // 最低价
+	Volume              int             `json:"volume"`                 // 数量
+	Turnover            decimal.Decimal `json:"turnover"`               // 成交金额
+	OpenInterest        decimal.Decimal `json:"open_interest"`          // 持仓量
+	UpdateTime          string          `json:"update_time"`            // 最后修改时间
+	UpdateMillisec      int             `json:"update_millisec"`        // 最后修改毫秒
+	UpperLimitPrice     decimal.Decimal `json:"upper_limit_price"`      // 涨停板价
+	LowerLimitPrice     decimal.Decimal `json:"lower_limit_price"`      // 跌停板价
+	BidPrice1           decimal.Decimal `json:"bid_price_1"`            // 申买价一
+	BidVolume1          int             `json:"bid_volume_1"`           // 申买量一
+	AskPrice1           decimal.Decimal `json:"ask_price_1"`            // 申卖价一
+	AskVolume1          int             `json:"ask_volume_1"`           // 申卖量一
+	AveragePrice        decimal.Decimal `json:"average_price"`          // 当日均价
+	ActionDay           string          `json:"action_day"`             // 业务日期
+	ClosePrice          decimal.Decimal `json:"close_price"`            // 今收盘	-
+	SettlementPrice     decimal.Decimal `json:"settlement_price"`       // 本次结算价
+	PreDelta            decimal.Decimal `json:"pre_delta"`              // 昨虚实度
+	CurrDelta           decimal.Decimal `json:"curr_delta"`             // 今虚实度
+	ActionDirection     byte            `json:"action_direction"`       // 操作标志
+	SyncDeltaSequenceNo byte            `json:"sync_delta_sequence_no"` // 追平序号
+	Analyze             string          `json:"analyze"`                // 变动方向|多开-空平-双开
 }
 
 // 行情响应
@@ -64,4 +66,3 @@ type TickFull struct {
 type SpecificInstrument struct {
 	InstrumentID string `json:"instrument_id"` // 合约代码
 }
-
