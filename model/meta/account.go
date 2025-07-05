@@ -50,12 +50,12 @@ type AccountInfo struct {
 	SpecProductCloseProfit         decimal.Decimal `json:"spec_product_close_profit" gorm:"column:spec_product_close_profit;comment:特殊产品平仓盈亏;"`                                // 特殊产品平仓盈亏
 	SpecProductPositionProfitByAlg decimal.Decimal `json:"spec_product_position_profit_by_alg" gorm:"column:spec_product_position_profit_by_alg;comment:根据持仓盈亏算法计算的特殊产品持仓盈亏;"` // 根据持仓盈亏算法计算的特殊产品持仓盈亏
 	SpecProductExchangeMargin      decimal.Decimal `json:"spec_product_exchange_margin" gorm:"column:spec_product_exchange_margin;comment:特殊产品交易所保证金;"`                        // 特殊产品交易所保证金
-	BizType                        byte            `json:"biz_type" gorm:"column:biz_type;comment:业务类型;"`                                                                      // 业务类型
+	BizType                        int32           `json:"biz_type" gorm:"column:biz_type;comment:业务类型;"`                                                                      // 业务类型
 	FrozenSwap                     decimal.Decimal `json:"frozen_swap" gorm:"column:frozen_swap;comment:延时换汇冻结金额;"`                                                            // 延时换汇冻结金额
 	RemainSwap                     decimal.Decimal `json:"remain_swap" gorm:"column:remain_swap;comment:剩余换汇额度;"`                                                              // 剩余换汇额度
 }
 
-type PosDateType byte
+type PosDateType int32
 
 const (
 	//THOST_FTDC_PSD_Today   PosDateType = '0' //纯今日
@@ -70,9 +70,9 @@ type Position struct {
 	InstrumentName     string          `json:"instrument_name" gorm:"column:instrument_name;comment:合约名;"`
 	ExchangeID         string          `json:"exchange_id" gorm:"column:exchange_id;comment:交易所代码;"`
 	InvestorID         string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`
-	PosiDirection      byte            `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`
-	HedgeFlag          byte            `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`
-	PositionDate       byte            `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"`
+	PosiDirection      int32           `json:"posi_direction" gorm:"column:posi_direction;comment:持仓多空方向;"`
+	HedgeFlag          int32           `json:"hedge_flag" gorm:"column:hedge_flag;comment:投机套保标志;"`
+	PositionDate       int32           `json:"position_date" gorm:"column:position_date;comment:持仓日期;index:idx_position_date,type:btree"`
 	Position           int             `json:"position" gorm:"column:position;comment:当前总持仓;"`
 	YdPosition         int             `json:"yd_position" gorm:"column:yd_position;comment:上日持仓;"`
 	TodayPosition      int             `json:"today_position" gorm:"column:today_position;comment:表示今新开仓;"`
@@ -119,4 +119,3 @@ func (impl *Position) AvgPrice(vm int64) decimal.Decimal {
 	}
 	return impl.OpenCost.Div(decimal.NewFromInt(vm * int64(impl.Position)))
 }
-

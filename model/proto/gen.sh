@@ -1,7 +1,7 @@
 CUR_DIR=$(pwd)
 echo $CUR_DIR
 
-META_DIR=$CUR_DIR"/meta/"
+META_DIR=$CUR_DIR"/thost/"
 echo $META_DIR
 
 RPC_DIR=$CUR_DIR"/rpc/"
@@ -13,5 +13,6 @@ echo $DST_DIR
 
 META="*.proto"
 
+#protoc --go_out=${DST_DIR} --proto_path=${META_DIR} ${META_DIR}${META}
 protoc --go_out=${DST_DIR} --proto_path=${META_DIR} ${META_DIR}${META}
 #protoc -I=$META_DIR --go_out=plugins=grpc:${DST_DIR} ${META_DIR}${META}

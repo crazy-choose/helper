@@ -23,13 +23,13 @@ type InstrumentInfo struct {
 	ExpireDate             string            `json:"expire_date"`               // 到期日
 	StartDelivDate         string            `json:"start_deliv_date"`          // 开始交割日
 	EndDelivDate           string            `json:"end_deliv_date"`            // 结束交割日
-	InstLifePhase          byte              `json:"inst_life_phase"`           // 合约生命周期状态
+	InstLifePhase          int32             `json:"inst_life_phase"`           // 合约生命周期状态
 	IsTrading              int               `json:"is_trading"`                // 当前是否交易
-	PositionType           byte              `json:"position_type"`             // 持仓类型
-	PositionDateType       byte              `json:"position_date_type"`        // 持仓日期类型
+	PositionType           int32             `json:"position_type"`             // 持仓类型
+	PositionDateType       int32             `json:"position_date_type"`        // 持仓日期类型
 	LongMarginRatio        decimal.Decimal   `json:"long_margin_ratio"`         // 多头保证金率
 	ShortMarginRatio       decimal.Decimal   `json:"short_margin_ratio"`        // 空头保证金率
-	MaxMarginSideAlgorithm byte              `json:"max_margin_side_algorithm"` // 是否使用大额单边保证金算法
+	MaxMarginSideAlgorithm int32             `json:"max_margin_side_algorithm"` // 是否使用大额单边保证金算法
 	reserve4               string            `json:"-"`                         // 保留的无效字段
 	StrikePrice            decimal.Decimal   `json:"strike_price"`              // 执行价
 	OptionsType            OptionsTypes      `json:"options_type"`              // 期权类型
@@ -40,24 +40,24 @@ type InstrumentInfo struct {
 	ProductID              string            `json:"product_id"`                // 产品代码
 	UnderlyingInstrID      string            `json:"underlying_instr_id"`       // 基础商品代码
 
-	InstrumentStatus byte   `json:"instrument_status"`  // 合约交易状态 byte(从status更新而来)
+	InstrumentStatus int32  `json:"instrument_status"`  // 合约交易状态 int32(从status更新而来)
 	TradingSegmentSN int    `json:"trading_segment_sn"` // 交易阶段编号 int32(从status更新而来)
-	EnterTime        string `json:"enter_time"`         // 进入本状态时间 [9]byte(从status更新而来)
-	EnterReason      byte   `json:"enter_reason"`       // 进入本状态原因 byte(从status更新而来)
+	EnterTime        string `json:"enter_time"`         // 进入本状态时间 [9]int32(从status更新而来)
+	EnterReason      int32  `json:"enter_reason"`       // 进入本状态原因 int32(从status更新而来)
 }
 
 // InstrumentStatus 合约状态
 type InstrumentStatus struct {
-	ExchangeID        string `json:"exchange_id"`         // 交易所代码	[9]byte
-	reserve1          string `json:"-"`                   // 保留的无效字段	[31]byte
-	SettlementGroupID string `json:"settlement_group_id"` // 结算组代码 [9]byte
-	reserve2          string `json:"-"`                   // 保留的无效字段 [31]byte
-	InstrumentStatus  byte   `json:"instrument_status"`   // 合约交易状态 byte
+	ExchangeID        string `json:"exchange_id"`         // 交易所代码	[9]int32
+	reserve1          string `json:"-"`                   // 保留的无效字段	[31]int32
+	SettlementGroupID string `json:"settlement_group_id"` // 结算组代码 [9]int32
+	reserve2          string `json:"-"`                   // 保留的无效字段 [31]int32
+	InstrumentStatus  int32  `json:"instrument_status"`   // 合约交易状态 int32
 	TradingSegmentSN  int    `json:"trading_segment_sn"`  // 交易阶段编号 int32
-	EnterTime         string `json:"enter_time"`          // 进入本状态时间 [9]byte
-	EnterReason       byte   `json:"enter_reason"`        // 进入本状态原因 byte
-	ExchangeInstID    string `json:"exchange_inst_id"`    // 合约在交易所的代码 [81]byte
-	InstrumentID      string `json:"instrument_id"`       // 合约代码 [81]byte
+	EnterTime         string `json:"enter_time"`          // 进入本状态时间 [9]int32
+	EnterReason       int32  `json:"enter_reason"`        // 进入本状态原因 int32
+	ExchangeInstID    string `json:"exchange_inst_id"`    // 合约在交易所的代码 [81]int32
+	InstrumentID      string `json:"instrument_id"`       // 合约代码 [81]int32
 	InsExtInfo
 }
 

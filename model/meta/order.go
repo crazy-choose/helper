@@ -8,8 +8,8 @@ type OrderInfo struct {
 	InvestorID           string          `json:"investor_id" gorm:"column:investor_id;comment:投资者代码;index:idx_investor_id,type:btree"`           // 投资者代码
 	OrderRef             string          `json:"order_ref" gorm:"column:order_ref;comment:报单引用;index:idx_order_ref,type:btree"`                  // 报单引用
 	UserID               string          `json:"user_id" gorm:"column:user_id;comment:用户代码;index:idx_user_id,type:btree"`                        // 用户代码
-	OrderPriceType       byte            `json:"order_price_type" gorm:"column:order_price_type;comment:报单价格条件;"`                                // 报单价格条件
-	Direction            byte            `json:"direction" gorm:"column:direction;comment:买卖方向;"`                                                // 买卖方向
+	OrderPriceType       int32           `json:"order_price_type" gorm:"column:order_price_type;comment:报单价格条件;"`                                // 报单价格条件
+	Direction            int32           `json:"direction" gorm:"column:direction;comment:买卖方向;"`                                                // 买卖方向
 	CombOffsetFlag       string          `json:"comb_offset_flag" gorm:"column:comb_offset_flag;comment:组合开平标志;"`                                // 组合开平标志
 	CombHedgeFlag        string          `json:"comb_hedge_flag" gorm:"column:comb_hedge_flag;comment:组合投机套保标志;"`                                // 组合投机套保标志
 	LimitPrice           decimal.Decimal `json:"limit_price" gorm:"column:limit_price;comment:价格;"`                                              // 价格
@@ -20,7 +20,7 @@ type OrderInfo struct {
 	MinVolume            int             `json:"min_volume" gorm:"column:min_volume;comment:最小成交量;"`                                             // 最小成交量
 	ContingentCondition  string          `json:"contingent_condition" gorm:"column:contingent_condition;comment:触发条件;"`                          // 触发条件
 	StopPrice            decimal.Decimal `json:"stop_price" gorm:"column:stop_price;comment:止损价;"`                                               // 止损价
-	ForceCloseReason     byte            `json:"force_close_reason" gorm:"column:force_close_reason;comment:强平原因;"`                              // 强平原因
+	ForceCloseReason     int32           `json:"force_close_reason" gorm:"column:force_close_reason;comment:强平原因;"`                              // 强平原因
 	IsAutoSuspend        int             `json:"is_auto_suspend" gorm:"column:is_auto_suspend;comment:自动挂起标志;"`                                  // 自动挂起标志
 	BusinessUnit         string          `json:"business_unit" gorm:"column:business_unit;comment:业务单元;"`                                        // 业务单元
 	RequestID            int             `json:"request_id" gorm:"column:request_id;comment:请求编号;index:idx_request_id,type:btree"`               // 请求编号
@@ -39,7 +39,7 @@ type OrderInfo struct {
 	SettlementID         int             `json:"settlement_id" gorm:"column:settlement_id;comment:结算编号;"`                                        // 结算编号
 	OrderSysID           string          `json:"order_sys_id" gorm:"column:order_sys_id;comment:报单编号;index:idx_order_sys_id,type:btree"`         // 报单编号
 	OrderSource          string          `json:"order_source" gorm:"column:order_source;comment:报单来源;index:idx_order_source,type:btree"`         // 报单来源
-	OrderStatus          byte            `json:"order_status" gorm:"column:order_status;comment:报单状态;"`                                          // 报单状态
+	OrderStatus          int32           `json:"order_status" gorm:"column:order_status;comment:报单状态;"`                                          // 报单状态
 	OrderType            string          `json:"order_type" gorm:"column:order_type;comment:报单类型;"`                                              // 报单类型
 	VolumeTraded         int             `json:"volume_traded" gorm:"column:volume_traded;comment:今成交数量;"`                                       // 今成交数量
 	VolumeTotal          int             `json:"volume_total" gorm:"column:volume_total;comment:剩余数量;"`                                          // 剩余数量
@@ -84,7 +84,7 @@ type OrderActionInfo struct {
 	SessionID         int             `json:"session_id"`          // 会话编号
 	ExchangeID        string          `json:"exchange_id"`         // 交易所代码
 	OrderSysID        string          `json:"order_sys_id"`        // 报单编号
-	ActionFlag        byte            `json:"action_flag"`         // 操作标志
+	ActionFlag        int32           `json:"action_flag"`         // 操作标志
 	LimitPrice        decimal.Decimal `json:"limit_price"`         // 价格
 	VolumeChange      int             `json:"volume_change"`       // 数量变化
 	ActionDate        string          `json:"action_date"`         // 操作日期

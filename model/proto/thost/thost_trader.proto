@@ -1,0 +1,307 @@
+syntax = "proto3";
+// 指定proto版本
+package pb;
+// 指定包名
+option go_package = "github.com/crazy-choose/helper/model/proto/pb";
+
+message AccountInfo {
+  string broker_iD = 1;                     // 经纪公司代码
+  string account_iD = 2;                    // 投资者帐号
+  double pre_mortgage = 3;                  // 上次质押金额
+  double pre_credit = 4;                    // 上次信用额度
+  double pre_deposit = 5;                   // 上次存款额
+  double pre_balance = 6;                   // 上次结算准备金
+  double pre_margin = 7;                    // 上次占用的保证金
+  double interest_base = 8;                 // 利息基数
+  double interest = 9;                      // 利息收入
+  double deposit = 10;                      // 入金金额
+  double withdraw = 11;                     // 出金金额
+  double frozen_margin = 12;                // 冻结的保证金
+  double frozen_cash = 13;                  // 冻结的资金
+  double frozen_commission = 14;            // 冻结的手续费
+  double curr_margin = 15;                  // 当前保证金总额
+  double cash_in = 16;                      // 资金差额
+  double commission = 17;                   // 手续费
+  double close_profit = 18;                 // 平仓盈亏
+  double position_profit = 19;              // 持仓盈亏
+  double balance = 20;                      // 期货结算准备金
+  double available = 21;                    // 可用资金
+  double withdraw_quota = 22;               // 可取资金
+  double reserve = 23;                      // 基本准备金
+  string trading_day = 24;                  // 交易日
+  int32 settlement_iD = 25;                 // 结算编号
+  double credit = 26;                       // 信用额度
+  double mortgage = 27;                     // 质押金额
+  double exchange_margin = 28;              // 交易所保证金
+  double delivery_margin = 29;              // 投资者交割保证金
+  double exchange_delivery_margin = 30;     // 交易所交割保证金
+  double reserve_balance = 31;              // 保底期货结算准备金
+  string currency_iD = 32;                  // 币种代码
+  double pre_fund_mortgage_in = 33;         // 上次货币质入金额
+  double pre_fund_mortgage_out = 34;        // 上次货币质出金额
+  double fund_mortgage_in = 35;             // 货币质入金额
+  double fund_mortgage_out = 36;            // 货币质出金额
+  double fund_mortgage_available = 37;      // 货币质押余额
+  double mortgageable_fund = 38;            // 可质押货币金额
+  double spec_product_margin = 39;          // 特殊产品占用保证金
+  double spec_product_frozen_margin = 40;   // 特殊产品冻结保证金
+  double spec_product_commission = 41;      // 特殊产品手续费
+  double spec_product_frozen_commission = 42; // 特殊产品冻结手续费
+  double spec_product_position_profit = 43; // 特殊产品持仓盈亏
+  double spec_product_close_profit = 44;    // 特殊产品平仓盈亏
+  double spec_product_position_profit_by_alg = 45; // 根据持仓盈亏算法计算的特殊产品持仓盈亏
+  double spec_product_exchange_margin = 46; // 特殊产品交易所保证金
+  int32 biz_type = 47;                      // 业务类型（byte→int32）
+  double frozen_swap = 48;                  // 延时换汇冻结金额
+  double remain_swap = 49;                  // 剩余换汇额度
+}
+
+// 持仓日期类型枚举
+enum PosDateType {
+  TODAY = 0;   // 今日(49) - 原始值 '1'
+  HISTORY = 1; // 旧仓(50) - 原始值 '2'
+}
+
+message Position {
+  string broker_iD = 1;                  // 经纪公司代码
+  string instrument_iD = 2;              // 合约代码
+  string instrument_name = 3;            // 合约名
+  string exchange_iD = 4;                // 交易所代码
+  string investor_iD = 5;                // 投资者代码
+  int32 posi_direction = 6;              // 持仓多空方向（byte→int32）
+  int32 hedge_flag = 7;                  // 投机套保标志（byte→int32）
+  PosDateType position_date = 8;         // 持仓日期（使用枚举）
+  int32 position = 9;                    // 当前总持仓
+  int32 yd_position = 10;                // 上日持仓
+  int32 today_position = 11;             // 表示今新开仓
+  int32 open_volume = 12;                // 开仓量
+  int32 close_volume = 13;               // 平仓量
+  double open_amount = 14;               // 开仓金额
+  double close_amount = 15;              // 平仓金额
+  double position_cost = 16;             // 持仓成本
+  double close_profit = 17;              // 平仓盈亏
+  double position_profit = 18;           // 持仓盈亏
+  double open_cost = 19;                 // 开仓成本
+  int32 long_frozen = 20;                // 多头冻结
+  int32 short_frozen = 21;               // 空头冻结
+  double long_frozen_amount = 22;        // 开仓冻结金额
+  double short_frozen_amount = 23;       // 开仓冻结金额
+  double pre_margin = 24;                // 上次占用的保证金
+  double use_margin = 25;                // 占用的保证金
+  double frozen_margin = 26;             // 冻结的保证金
+  double frozen_cash = 27;               // 冻结的资金
+  double frozen_commission = 28;         // 冻结的手续费
+  double cash_in = 29;                   // 资金差额
+  double commission = 30;                // 手续费
+  double pre_settlement_price = 31;      // 上次结算价
+  double settlement_price = 32;          // 本次结算价
+  int32 settlement_iD = 33;              // 结算编号
+  double exchange_margin = 34;           // 交易所保证金
+  int32 comb_position = 35;              // 组合成交形成的持仓
+  int32 comb_long_frozen = 36;           // 组合多头冻结
+  int32 comb_short_frozen = 37;          // 组合空头冻结
+  double close_profit_by_date = 38;      // 逐日盯市平仓盈亏
+  double close_profit_by_trade = 39;     // 逐笔对冲平仓盈亏
+  int32 strike_frozen = 40;              // 执行冻结
+  double strike_frozen_amount = 41;      // 执行冻结金额
+  int32 abandon_frozen = 42;             // 放弃执行冻结
+  int32 yd_strike_frozen = 43;           // 执行冻结的昨仓
+  double position_cost_offset = 44;      // 大商所持仓成本差值
+  string reserve1 = 45;                  // 保留的无效字段
+}
+
+// 订单信息 && 报单响应
+message OrderInfo {
+  string broker_iD = 1;                 // 经纪公司代码
+  string investor_iD = 2;               // 投资者代码
+  string reserve1 = 3;                  // 保留的无效字段1
+  string order_ref = 4;                 // 报单引用
+  string user_iD = 5;                   // 用户代码
+  int32 order_price_type = 6;           // 报单价格条件 (byte→int32)
+  int32 direction = 7;                  // 买卖方向 (byte→int32)
+  string comb_offset_flag = 8;          // 组合开平标志
+  string comb_hedge_flag = 9;           // 组合投机套保标志
+  double limit_price = 10;              // 价格
+  int32 volume_total_original = 11;     // 数量
+  string time_condition = 12;           // 有效期类型
+  string gTD_date = 13;                 // GTD日期
+  string volume_condition = 14;         // 成交量类型
+  int32 min_volume = 15;                // 最小成交量
+  string contingent_condition = 16;     // 触发条件
+  double stop_price = 17;               // 止损价
+  int32 force_close_reason = 18;        // 强平原因 (byte→int32)
+  int32 is_auto_suspend = 19;           // 自动挂起标志
+  string business_unit = 20;            // 业务单元
+  int32 request_iD = 21;                // 请求编号
+  string order_local_iD = 22;           // 本地报单编号
+  string exchange_iD = 23;              // 交易所代码
+  string participant_iD = 24;           // 会员代码
+  string client_iD = 25;                // 客户代码
+  string reserve2 = 26;                 // 保留的无效字段2
+  string trader_iD = 27;                // 交易所交易员代码
+  int32 install_iD = 28;                // 安装编号
+  string order_submit_status = 29;      // 报单提交状态
+  int32 notify_sequence = 30;           // 报单提示序号
+  string trading_day = 31;              // 交易日
+  int32 settlement_iD = 32;             // 结算编号
+  string order_sys_iD = 33;             // 报单编号
+  string order_source = 34;             // 报单来源
+  int32 order_status = 35;              // 报单状态 (byte→int32)
+  string order_type = 36;               // 报单类型
+  int32 volume_traded = 37;             // 今成交数量
+  int32 volume_total = 38;              // 剩余数量
+  string insert_date = 39;              // 报单日期
+  string insert_time = 40;              // 委托时间
+  string active_time = 41;              // 激活时间
+  string suspend_time = 42;             // 挂起时间
+  string update_time = 43;              // 最后修改时间
+  string cancel_time = 44;              // 撤销时间
+  string active_trader_iD = 45;         // 最后修改交易所交易员代码
+  string clearing_part_iD = 46;         // 结算会员编号
+  int32 sequence_no = 47;               // 序号
+  int32 front_iD = 48;                  // 前置编号
+  int32 session_iD = 49;                // 会话编号
+  string user_product_info = 50;        // 用户端产品信息
+  string status_msg = 51;               // 状态信息
+  int32 user_force_close = 52;          // 用户强评标志
+  string active_user_iD = 53;           // 操作用户代码
+  int32 broker_order_seq = 54;          // 经纪公司报单编号
+  string relative_order_sys_iD = 55;    // 相关报单
+  int32 zce_total_traded_volume = 56;   // 郑商所成交数量
+  int32 is_swap_order = 57;             // 互换单标志
+  string branch_iD = 58;                // 营业部编号
+  string invest_unit_iD = 59;           // 投资单元代码
+  string account_iD = 60;               // 资金账号
+  string currency_iD = 61;              // 币种代码
+  string reserve3 = 62;                 // 保留的无效字段3
+  string mac_address = 63;              // Mac地址
+  string instrument_iD = 64;            // 合约代码
+  string exchange_inst_iD = 65;         // 合约在交易所的代码
+  string I_p_address = 66;               // IP地址
+  string order_memo = 67;               // 报单回显字段
+  string session_req_seq = 68;          // session上请求计数 api自动维护
+}
+
+// 报单操作(如：撤单)
+message OrderActionInfo {
+  string broker_iD = 1;             // 经纪公司代码
+  string investor_iD = 2;           // 投资者代码
+  int32 order_action_ref = 3;       // 报单操作引用
+  string order_ref = 4;             // 报单引用
+  int32 request_iD = 5;             // 请求编号
+  int32 front_iD = 6;               // 前置编号
+  int32 session_iD = 7;             // 会话编号
+  string exchange_iD = 8;           // 交易所代码
+  string order_sys_iD = 9;          // 报单编号
+  int32 action_flag = 10;           // 操作标志 (byte→int32)
+  double limit_price = 11;          // 价格
+  int32 volume_change = 12;         // 数量变化
+  string action_date = 13;          // 操作日期
+  string action_time = 14;          // 操作时间
+  string trader_iD = 15;            // 交易所交易员代码
+  int32 install_iD = 16;            // 安装编号
+  string order_local_iD = 17;       // 本地报单编号
+  string action_local_iD = 18;      // 操作本地编号
+  string participant_iD = 19;       // 会员代码
+  string client_iD = 20;            // 客户代码
+  string business_unit = 21;        // 业务单元
+  string order_action_status = 22;  // 报单操作状态
+  string user_iD = 23;              // 用户代码
+  string status_msg = 24;           // 状态信息
+  string reserve1 = 25;             // 保留的无效字段1
+  string branch_iD = 26;            // 营业部编号
+  string invest_unit_iD = 27;       // 投资单元代码
+  string reserve2 = 28;             // 保留的无效字段2
+  string mac_address = 29;          // Mac地址
+  string instrument_iD = 30;        // 合约代码
+  string I_p_address = 31;           // IP地址
+  string order_memo = 32;           // 报单回显字段
+  string session_req_seq = 33;      // session上请求计数 api自动维护
+}
+
+// 成交信息
+message TradeInfo {
+  string broker_iD = 1;          // 经纪公司代码
+  string investor_iD = 2;        // 投资者代码
+  string reserve1 = 3;           // 保留的无效字段
+  string order_ref = 4;          // 报单引用
+  string user_iD = 5;            // 用户代码
+  string exchange_iD = 6;        // 交易所代码
+  string trade_iD = 7;           // 成交编号
+  int32 direction = 8;           // 买卖方向 (byte→int32)
+  string order_sys_iD = 9;       // 报单编号
+  string participant_iD = 10;    // 会员代码
+  string client_iD = 11;         // 客户代码
+  string trading_role = 12;      // 交易角色
+  string reserve2 = 13;          // 保留的无效字段
+  int32 offset_flag = 14;        // 开平标志 (byte→int32)
+  string hedge_flag = 15;        // 投机套保标志
+  double price = 16;             // 价格
+  int32 volume = 17;             // 数量
+  string trade_date = 18;        // 成交时期
+  string trade_time = 19;        // 成交时间
+  int32 trade_type = 20;         // 成交类型 (byte→int32)
+  string price_source = 21;      // 成交价来源
+  string trader_iD = 22;         // 交易所交易员代码
+  string order_local_iD = 23;    // 本地报单编号
+  string clearing_part_iD = 24;  // 结算会员编号
+  string business_unit = 25;     // 业务单元
+  int32 sequence_no = 26;        // 序号
+  string trading_day = 27;       // 交易日
+  int32 settlement_iD = 28;      // 结算编号
+  int32 broker_order_seq = 29;   // 经纪公司报单编号
+  int32 trade_source = 30;       // 成交来源 (byte→int32)
+  string invest_unit_iD = 31;    // 投资单元代码
+  string instrument_iD = 32;     // 合约代码
+  string exchange_inst_iD = 33;  // 合约在交易所的代码
+}
+
+// 银行期货转账信息（请求和响应共用）
+message BankFutureTransferInfo {
+  string trade_code = 1;                 // 业务功能码
+  string bank_iD = 2;                    // 银行代码
+  string bank_branch_iD = 3;             // 银行分支机构代码
+  string broker_iD = 4;                  // 期商代码
+  string broker_branch_iD = 5;           // 期商分支机构代码
+  string trade_date = 6;                 // 交易日期
+  string trade_time = 7;                 // 交易时间
+  string bank_serial = 8;                // 银行流水号
+  string trading_day = 9;                // 交易系统日期
+  int32 plate_serial = 10;               // 银期平台消息流水号
+  string last_fragment = 11;             // 最后分片标志
+  int32 session_iD = 12;                 // 会话号
+  string customer_name = 13;             // 客户姓名
+  string id_card_type = 14;              // 证件类型
+  string identified_card_no = 15;        // 证件号码
+  string cust_type = 16;                 // 客户类型
+  string bank_account = 17;              // 银行帐号
+  string bank_pass_word = 18;            // 银行密码
+  string account_iD = 19;                // 投资者帐号
+  string password = 20;                  // 期货密码
+  int32 install_iD = 21;                 // 安装编号
+  int32 future_serial = 22;              // 期货公司流水号
+  string user_iD = 23;                   // 用户标识
+  string verify_cert_no_flag = 24;       // 验证客户证件号码标志
+  string currency_iD = 25;               // 币种代码
+  double trade_amount = 26;              // 转帐金额
+  double future_fetch_amount = 27;       // 期货可取金额
+  string fee_pay_flag = 28;              // 费用支付标志
+  double cust_fee = 29;                  // 应收客户费用
+  double broker_fee = 30;                // 应收期货公司费用
+  string message = 31;                   // 消息
+  string digest = 32;                    // 摘要
+  string bank_acc_type = 33;             // 银行帐号类型
+  string device_iD = 34;                 // 渠道标志
+  string bank_secu_acc_type = 35;        // 期货单位帐号类型
+  string broker_iD_by_bank = 36;         // 期货公司银行编码
+  string bank_secu_acc = 37;             // 期货单位帐号
+  string bank_pwd_flag = 38;             // 银行密码标志
+  string secu_pwd_flag = 39;             // 期货资金密码核对标志
+  string oper_no = 40;                   // 交易柜员
+  int32 request_iD = 41;                 // 请求编号
+  int32 t_i_d = 42;                      // 交易ID
+  string transfer_status = 43;           // 转账交易状态
+  int32 error_iD = 44;                   //错误代码
+  string error_msg = 45;                 //错误信息
+  string long_customer_name = 46;        // 长客户姓名
+}

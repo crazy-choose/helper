@@ -1,0 +1,60 @@
+syntax = "proto3";
+// 指定proto版本
+package pb;
+// 指定包名
+option go_package = "github.com/crazy-choose/helper/model/proto/pb";
+
+message TickInfo {
+  string trading_day = 1;             // 交易日
+  string reserve1 = 2;                // 保留的无效字段
+  string exchange_iD = 3;             // 交易所代码
+  string reserve2 = 4;                // 保留的无效字段
+  double last_price = 5;              // 最新价
+  double pre_settlement_price = 6;    // 上次结算价
+  double pre_close_price = 7;         // 昨收盘
+  double pre_open_interest = 8;       // 昨持仓量
+  double open_price = 9;              // 今开盘
+  double highest_price = 10;          // 最高价
+  double lowest_price = 11;           // 最低价
+  int32 volume = 12;                  // 数量
+  double turnover = 13;               // 成交金额
+  double open_interest = 14;          // 持仓量
+  double close_price = 15;            // 今收盘（注意：原注释有 '-'）
+  double settlement_price = 16;       // 本次结算价
+  double upper_limit_price = 17;      // 涨停板价
+  double lower_limit_price = 18;      // 跌停板价
+  double pre_delta = 19;              // 昨虚实度
+  double curr_delta = 20;             // 今虚实度
+  string update_time = 21;            // 最后修改时间
+  int32 update_millisec = 22;         // 最后修改毫秒
+  double bid_price1 = 23;            // 申买价一
+  int32 bid_volume1 = 24;            // 申买量一
+  double ask_price1 = 25;            // 申卖价一
+  int32 ask_volume1 = 26;            // 申卖量一
+  double bid_price2 = 27;            // 申买价二
+  int32 bid_volume2 = 28;            // 申买量二
+  double ask_price2 = 29;            // 申卖价二
+  int32 ask_volume2 = 30;            // 申卖量二
+  double bid_price3 = 31;            // 申买价三
+  int32 bid_volume3 = 32;            // 申买量三
+  double ask_price3 = 33;            // 申卖价三
+  int32 ask_volume3 = 34;            // 申卖量三
+  double bid_price4 = 35;            // 申买价四
+  int32 bid_volume4 = 36;            // 申买量四
+  double ask_price4 = 37;            // 申卖价四
+  int32 ask_volume4 = 38;            // 申卖量四
+  double bid_price5 = 39;            // 申买价五
+  int32 bid_volume5 = 40;            // 申买量五
+  double ask_price5 = 41;            // 申卖价五
+  int32 ask_volume5 = 42;            // 申卖量五
+  double average_price = 43;         // 当日均价
+  string action_day = 44;            // 业务日期
+  string instrument_iD = 45;         // 合约代码
+  string exchange_inst_iD = 46;      // 合约在交易所的代码
+  double banding_upper_price = 47;   // 上带价
+  double banding_lower_price = 48;   // 下带价
+
+  int32 action_direction = 49;       // 操作标志 (byte→int32)
+  int32 sync_delta_sequence_no = 50; // 追平序号 (byte→int32)
+  string analyze = 51; // 变动方向|多开-空平-双开
+}

@@ -11,19 +11,19 @@ type TradeInfo struct {
 	UserID         string          `json:"user_id"`          // 用户代码
 	ExchangeID     string          `json:"exchange_id"`      // 交易所代码
 	TradeID        string          `json:"trade_id"`         // 成交编号
-	Direction      byte            `json:"direction"`        // 买卖方向
+	Direction      int32           `json:"direction"`        // 买卖方向
 	OrderSysID     string          `json:"order_sys_id"`     // 报单编号
 	ParticipantID  string          `json:"participant_id"`   // 会员代码
 	ClientID       string          `json:"client_id"`        // 客户代码
 	TradingRole    string          `json:"trading_role"`     // 交易角色
 	reserve2       string          `json:"reserve_2"`        // 保留的无效字段
-	OffsetFlag     byte            `json:"offset_flag"`      // 开平标志
+	OffsetFlag     int32           `json:"offset_flag"`      // 开平标志
 	HedgeFlag      string          `json:"hedge_flag"`       // 投机套保标志
 	Price          decimal.Decimal `json:"price"`            // 价格
 	Volume         int             `json:"volume"`           // 数量
 	TradeDate      string          `json:"trade_date"`       // 成交时期
 	TradeTime      string          `json:"trade_time"`       // 成交时间
-	TradeType      byte            `json:"trade_type"`       // 成交类型
+	TradeType      int32           `json:"trade_type"`       // 成交类型
 	PriceSource    string          `json:"price_source"`     // 成交价来源
 	TraderID       string          `json:"trader_id"`        // 交易所交易员代码
 	OrderLocalID   string          `json:"order_local_id"`   // 本地报单编号
@@ -33,9 +33,8 @@ type TradeInfo struct {
 	TradingDay     string          `json:"trading_day"`      // 交易日
 	SettlementID   int             `json:"settlement_id"`    // 结算编号
 	BrokerOrderSeq int             `json:"broker_order_seq"` // 经纪公司报单编号
-	TradeSource    byte            `json:"trade_source"`     // 成交来源
+	TradeSource    int32           `json:"trade_source"`     // 成交来源
 	InvestUnitID   string          `json:"invest_unit_id"`   // 投资单元代码
 	InstrumentID   string          `json:"instrument_id"`    // 合约代码
 	ExchangeInstID string          `json:"exchange_inst_id"` // 合约在交易所的代码
 }
-

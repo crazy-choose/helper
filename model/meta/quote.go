@@ -31,8 +31,8 @@ type TickInfo struct {
 	SettlementPrice     decimal.Decimal `json:"settlement_price"`       // 本次结算价
 	PreDelta            decimal.Decimal `json:"pre_delta"`              // 昨虚实度
 	CurrDelta           decimal.Decimal `json:"curr_delta"`             // 今虚实度
-	ActionDirection     byte            `json:"action_direction"`       // 操作标志
-	SyncDeltaSequenceNo byte            `json:"sync_delta_sequence_no"` // 追平序号
+	ActionDirection     int32           `json:"action_direction"`       // 操作标志
+	SyncDeltaSequenceNo int32           `json:"sync_delta_sequence_no"` // 追平序号
 	Analyze             string          `json:"analyze"`                // 变动方向|多开-空平-双开
 }
 
